@@ -1,0 +1,38 @@
+{
+  "files": {
+    "main.css": "/static/css/main.70931208.chunk.css",
+    "main.js": "/static/js/main.ccf9cc5a.chunk.js",
+    "main.js.map": "/static/js/main.ccf9cc5a.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.8fb8cf15.js",
+    "runtime-main.js.map": "/static/js/runtime-main.8fb8cf15.js.map",
+    "static/css/2.cc1b1c8e.chunk.css": "/static/css/2.cc1b1c8e.chunk.css",
+    "static/js/2.fc2cd3d3.chunk.js": "/static/js/2.fc2cd3d3.chunk.js",
+    "static/js/2.fc2cd3d3.chunk.js.map": "/static/js/2.fc2cd3d3.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.cc1b1c8e.chunk.css.map": "/static/css/2.cc1b1c8e.chunk.css.map",
+    "static/css/main.70931208.chunk.css.map": "/static/css/main.70931208.chunk.css.map",
+    "static/js/2.fc2cd3d3.chunk.js.LICENSE.txt": "/static/js/2.fc2cd3d3.chunk.js.LICENSE.txt",
+    "static/media/about-sp.9a00f950.jpeg": "/static/media/about-sp.9a00f950.jpeg",
+    "static/media/author1.b10d31da.jpeg": "/static/media/author1.b10d31da.jpeg",
+    "static/media/HeaderMain.scss": "/static/media/banner.cee67f73.jpeg",
+    "static/media/HeaderSecond.scss": "/static/media/banner-inner2.f383b3f3.jpeg",
+    "static/media/Footer.scss": "/static/media/footer-bg.53163ba3.jpeg",
+    "static/media/footer-logo.ea83ca3a.png": "/static/media/footer-logo.ea83ca3a.png",
+    "static/media/leader.23181026.jpeg": "/static/media/leader.23181026.jpeg",
+    "static/media/logo.f4f81a8e.png": "/static/media/logo.f4f81a8e.png",
+    "static/media/member_1.e7184f0f.jpeg": "/static/media/member_1.e7184f0f.jpeg",
+    "static/media/member_2.e91076f8.jpeg": "/static/media/member_2.e91076f8.jpeg",
+    "static/media/member_3.dcc19572.jpeg": "/static/media/member_3.dcc19572.jpeg",
+    "static/media/news1.0f99dd0c.jpeg": "/static/media/news1.0f99dd0c.jpeg",
+    "static/media/ScheduleDemo.scss": "/static/media/schedule-bg-pattern.bdbceb43.png",
+    "static/media/Speaker.scss": "/static/media/speakers-bg-black.16c8250f.jpeg",
+    "static/media/Reviews.scss": "/static/media/testi-bg.97e378ce.jpeg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8fb8cf15.js",
+    "static/css/2.cc1b1c8e.chunk.css",
+    "static/js/2.fc2cd3d3.chunk.js",
+    "static/css/main.70931208.chunk.css",
+    "static/js/main.ccf9cc5a.chunk.js"
+  ]
+}
