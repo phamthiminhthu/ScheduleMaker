@@ -1,0 +1,45 @@
+.header-second {
+    background-image: url("../../../assets/banner-inner2.jpeg");
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    padding-bottom: 40px;
+    .bread-crumbs {
+        .themes-header {
+            font-size: 45px;
+            line-height: 1.8;
+            color: #1b273d;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .bread-crumbs-details {
+            padding-bottom: 60px;
+            svg {
+                font-weight: bold;
+                font-size: 20px;
+                color: #ec398b;
+            }
+            .css-1wuw8dw-MuiBreadcrumbs-separator {
+                color: #efa506;
+                font-weight: bold;
+            }
+            a {
+                font-size: 18px;
+                line-height: 1;
+                font-weight: 700;
+                color: #fff;
+                text-transform: uppercase;
+                
+            }
+            p{
+                font-size: 18px;
+                line-height: 1;
+                font-weight: 700;
+                color: #efa506 !important;
+                text-transform: uppercase;
+                
+            }
+        }
+    }
+}

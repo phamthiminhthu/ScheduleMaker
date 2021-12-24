@@ -1,0 +1,36 @@
+#teams-speaker {
+    background-image: url("../../assets/speakers-bg-black.jpeg");
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    .team-introduction {
+        background: rgba(27, 39, 61, 0.7);
+        .list-member {
+             .info-member{
+                border: 18px solid white;
+            }
+            img {
+                height: 370px;
+                width: 370px;
+            }
+            .info-member {
+                .user-position {
+                    h3{
+                        color: #efa506;
+                        font-size: 25px;
+                        font-weight: 700;
+                    }
+                }
+                .social-member {
+                    a{
+                        padding: 5px;
+                    }
+                    svg {
+                        color: white;
+                        font-size: 30px;
+                    }
+                }
+            }
+        }
+    }
+}

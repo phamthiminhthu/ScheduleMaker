@@ -1,0 +1,33 @@
+#introduce-about-web {
+    
+    .card-introduce {
+        box-shadow: none;
+        background-color: transparent;
+        .introduce-themes {
+            font-size: 40px;
+            line-height: 1;
+            color: #1b273d;
+            font-weight: 900;
+            margin: 0 0 1rem;
+            text-transform: uppercase;
+        }
+        .question-introduct {
+            color: #ec398b;
+            font-size: 20px;
+            line-height: 1.5;
+            font-weight: 400;
+            opacity: 1;
+            font-family: Oswald, sans-serif;
+        }
+        .content-introduce {
+            font-family: Poppins, sans-serif;
+            font-size: 15px;
+            padding: 0;
+            margin: 0;
+            color: rgba(50, 51, 51, 0.8);
+            line-height: 1.7;
+            font-weight: 700;
+
+        }
+    }
+}

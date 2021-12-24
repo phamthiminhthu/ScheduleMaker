@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Home from './screens/home/Home';
+
 
 function App() {
     return (
-        <div className="container">
-           
+        <div>
+           <Home/>
         </div>
     );
 }
@@ -12,5 +14,5 @@ function App() {
 export default App;
 
 if (document.getElementById('app')) {
-    ReactDOM.render(<Example />, document.getElementById('app'));
+    ReactDOM.render(<App />, document.getElementById('app'));
 }

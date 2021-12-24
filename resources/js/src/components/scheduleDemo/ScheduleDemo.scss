@@ -1,0 +1,17 @@
+#schedule-demo {
+    background-color: #554bb9;
+    .list-schedule {
+        background-image: url("../../assets/schedule-bg-pattern.png");
+        width: 100%;
+        background-repeat: no-repeat;
+        background-position-x: center;
+        .margin-items {
+            .btn-view-more {
+                button {
+                    background-color: white;
+                    color: #554bb9;
+                }
+            }
+        }
+    }
+}

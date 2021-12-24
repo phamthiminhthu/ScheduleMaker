@@ -1,0 +1,45 @@
+.card-item-news {
+    .card-news {
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+        border-radius: 20px;
+        padding: 3px;
+        img {
+            padding-top: 15px;
+        }
+        .time-author {
+            .nav .nav-item {
+                font-family: Poppins, sans-serif;
+                font-size: 16px;
+                letter-spacing: -0.2px;
+                color: rgba(50, 51, 51, 0.8);
+                line-height: 2;
+                font-weight: 700;
+            }
+        }
+        .content-news {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.2;
+            font-family: Oswald, sans-serif;
+            color: #1b273d;
+            letter-spacing: 0.5px;
+        }
+        button {
+            box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+            padding: 10px;
+            font-family: Oswald, sans-serif;
+            font-size: 12px;
+            color: #554bb9;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        button:hover{
+            border-radius: 15px;
+        }
+        .common-css-news {
+            width: 90%;
+            margin: 0 auto;
+        }
+    }
+}

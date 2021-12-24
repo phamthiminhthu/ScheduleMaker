@@ -1,0 +1,72 @@
+#reviews {
+    background-image: url("../../assets/testi-bg.jpeg");
+    background-repeat: no-repeat;
+    width: 100%;
+    .reviews-carousel {
+        background: rgba(255, 255, 255, 0.95);
+        .list-reviews {
+            .item-reviews {
+                .title-item-reviews {
+                    background-image: url("../../assets/quote.png");
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    height: 70px;
+                    width: 100%;
+                    align-content: center;
+                    opacity: 0.9;
+                    h3 {
+                        font-family: Oswald, sans-serif;
+                        line-height: 1.5;
+                        font-weight: 500;
+                        color: #3524dd;
+                        font-size: 18px;
+                        text-align: center;
+                        align-content: center;
+                        padding-top: 30px;
+                        letter-spacing: 0.5px;
+                    }
+                }
+                .comment-reviews {
+                    margin-top: 10px;
+                    padding-top: 10px;
+                    width: 77%;
+                    margin: 0 auto;
+                    font-size: 19px;
+                    font-weight: 600;
+                    opacity: 0.8;
+                    line-height: 1.5;
+                    font-family: Poppins, sans-serif;
+                    letter-spacing: 0.5px;
+                    padding-bottom: 20px;
+                }
+                .avatar-reviewer {
+                    width: 100px;
+                    height: 100px;
+                }
+                .name-author {
+                    font-family: Oswald, sans-serif;
+                    font-weight: 700;
+                    color: #1b273d;
+                    line-height: 1.5;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    font-size: 18px;
+                    letter-spacing: 0.5px;
+                }
+                .stars-review {
+                    .star-good {
+                        color: #ffaf0f;
+                    }
+                    svg {
+                        font-size: 20px;
+                    }
+                }
+            }
+            button {
+                svg {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}

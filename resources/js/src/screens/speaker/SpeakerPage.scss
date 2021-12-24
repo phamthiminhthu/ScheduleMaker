@@ -1,0 +1,20 @@
+#teams-speaker {
+    background-color: white;
+
+    .team-introduction {
+        background-color: white;
+        padding-bottom: 80px;
+        .title-items{
+            h1,h3{
+                color: black !important;
+            }
+        }
+        .list-member{
+            .info-member{
+                border: 18px solid rgba(85,75,185,0.9);
+            }
+        } 
+    }
+    
+    
+}

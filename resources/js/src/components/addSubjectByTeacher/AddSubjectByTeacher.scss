@@ -1,0 +1,52 @@
+.create-new-subject{
+    width: 90%;
+    margin: 0 auto;
+    .name-title-form{
+        margin-top: 13px;
+        margin-left: 10px;
+        font-size: 19px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        letter-spacing: -0.5px;
+        line-height: 1.4;
+        font-weight: 500;
+    }
+    input{
+        padding: 13px;
+    }
+    label{
+        margin-top: -3px;
+        font-size: 14px;
+        letter-spacing: -0.5px;
+    }
+    .form-add-class {
+   
+        .name-title-form{
+            margin-top: 13px;
+            margin-left: 10px;
+            font-size: 19px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            letter-spacing: -0.5px;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+        input{
+            padding: 13px;
+        }
+        label{
+            margin-top: -3px;
+            font-size: 14px;
+            letter-spacing: -0.5px;
+        }
+        .form-select-week{
+            >div{
+                padding: 13px;
+            }
+           
+        }
+    }
+    
+}
+
+tr{
+    border: white;
+}
