@@ -29,6 +29,8 @@ export default function SignIn() {
             showPassword: !values.showPassword
         });
     };
+
+    const [email, setEmail] = React.useState('');
     return (
         <div id="sign-in">
             <Container>
@@ -48,7 +50,7 @@ export default function SignIn() {
                                 </div>
                                 <div className="form-input-register">
                                     <div className="mb-2">
-                                        <TextField id="outlined-basic" label="Email Address / Username" variant="outlined" sx={{ m: 1, width: '90%' }} className="form-info" />
+                                        <TextField  label="Email Address / Username" variant="outlined" sx={{ m: 1, width: '90%' }} className="form-info" value={email} onChange={e => setEmail(e.target.value)} />
                                         <FormControl sx={{ m: 1, width: '90%' }} variant="outlined" className="form-info">
                                             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                             <OutlinedInput

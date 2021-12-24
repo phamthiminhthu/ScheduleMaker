@@ -52,7 +52,7 @@ function HeaderMain() {
                                     </span>
                                 </h1>
                                 <h5>
-                                    <AddLocationIcon style={{ 'color': '#efa506', 'font-size': '30px' }}></AddLocationIcon>
+                                    <AddLocationIcon style={{ 'color': '#efa506', 'fontSize': '30px' }}></AddLocationIcon>
                                     <span className="text-white">Dai Co Viet Street, Ha Noi, Viet Nam</span>
                                 </h5>
 

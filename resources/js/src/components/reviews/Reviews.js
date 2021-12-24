@@ -39,12 +39,12 @@ function ListCarousel(itemSlideCarousel) {
         itemSlideCarousel.map((item, index) => {
             return (
                 <div key={item.nameAuthor + index} className="text-center item-reviews">
-                    <div class="title-item-reviews">
+                    <div className="title-item-reviews">
                         <h3>{item.title}</h3>
                     </div>
                     <p className="comment-reviews">{item.contentComment}</p>
                     <Avatar alt="Remy Sharp" src={author} className="m-auto avatar-reviewer" />
-                    <p class="name-author">{item.nameAuthor}</p>
+                    <p className="name-author">{item.nameAuthor}</p>
                     {star(item.star)}
                 </div>
             )

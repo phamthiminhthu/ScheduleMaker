@@ -11,6 +11,7 @@ import '../cssCommonForm/common.scss';
 
 export default function Register() {
 
+    //password
     const [values, setValues] = React.useState({
         password: '',
         showPassword: false
@@ -28,6 +29,28 @@ export default function Register() {
         setValues({
             ...values,
             showPassword: !values.showPassword
+        });
+    };
+
+
+    //confirm password
+    const [valuesConfirm, setValuesConfirm] = React.useState({
+        confirmPassword: '',
+        showConfirmPassword: false
+
+    });
+
+    const handleChangeConfirm = (prop) => (event) => {
+        setValuesConfirm({ ...valuesConfirm, [prop]: event.target.value });
+    };
+
+    // const handleMouseDownPassword = (event) => {
+    //     event.preventDefault();
+    // };
+    const handleClickShowConfirmPassword = () => {
+        setValuesConfirm({
+            ...valuesConfirm,
+            showConfirmPassword: !valuesConfirm.showConfirmPassword
         });
     };
     return (
@@ -72,6 +95,28 @@ export default function Register() {
                                                     </InputAdornment>
                                                 }
                                                 label="Password"
+                                            />
+                                        </FormControl>
+                                        <FormControl sx={{ m: 1, width: '90%' }} variant="outlined" className="form-info">
+                                            <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+                                            <OutlinedInput
+                                                className="form-info"
+                                                type={valuesConfirm.showConfirmPassword ? 'text' : 'password'}
+                                                value={valuesConfirm.confirmPassword}
+                                                onChange={handleChangeConfirm('confirmPassword')}
+                                                endAdornment={
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={handleClickShowConfirmPassword}
+                                                            onMouseDown={handleMouseDownPassword}
+                                                            edge="end"
+                                                        >
+                                                            {valuesConfirm.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                }
+                                                label="Confirm Password"
                                             />
                                         </FormControl>
                                         <Button variant="contained" sx={{ width: '90%', m: 2 }} className="btn-sign-up rounded-0">Sign Up</Button>
