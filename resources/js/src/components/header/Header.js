@@ -1,6 +1,7 @@
 import { Navbar, Nav, Container, Row, Col } from 'react-bootstrap';
 import { Button } from '@mui/material'
 import logo from '../../assets/logo.png'
+import { Link } from 'react-router-dom';
 import './Header.scss'
 
 
@@ -22,17 +23,17 @@ function Header() {
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                             <Navbar.Collapse  id="basic-navbar-nav">
                                 <Nav className="list-menu">
-                                    <Nav.Link href="#home" className="text-white">Home</Nav.Link>
+                                    <Link to="/home" className="text-white nav-link">Home</Link>
                                     <Nav.Link href="#schedule" className="text-white">Schedule</Nav.Link>
                                     <Nav.Link href="#news" className="text-white">News</Nav.Link>
-                                    <Nav.Link href="#speaker" className="text-white">Speakers</Nav.Link>
+                                    <Link to="/speaker-page"  className="text-white nav-link">Speakers</Link>
                                     <Nav.Link href="#contact" className="text-white">Contact</Nav.Link>
-                                    <Nav.Link href="#sign-in">
+                                    <Link to="/sign-in" className="nav-link">
                                         <Button variant="contained" className="border-0">Sign In</Button>
-                                    </Nav.Link>
-                                    <Nav.Link href="sign-up">
+                                    </Link>
+                                    <Link to="/register" className="nav-link">
                                         <Button variant="contained" color="success" className="border-0">Sign Up</Button>
-                                    </Nav.Link>
+                                    </Link>
                                 </Nav>
                             </Navbar.Collapse>
                         </Col>

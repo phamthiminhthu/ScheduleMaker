@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import logo from '../../assets/logo.png';
-
+import {Link} from 'react-router-dom';
 import {FormControl, Button ,IconButton, OutlinedInput, TextField, InputLabel, InputAdornment} from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -78,9 +78,9 @@ export default function Register() {
 
                                     </div>
                                     <hr style={{ 'width': '90%', 'margin': '0 auto' }} />
-                                    <a href="#" className="question-footer-form">
+                                    <Link to="/sign-in" className="question-footer-form">
                                         <p className="mt-3 pb-4 ">Already have an account?</p>
-                                    </a>
+                                    </Link>
 
                                 </div>
 

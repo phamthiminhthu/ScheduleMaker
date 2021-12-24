@@ -6,7 +6,7 @@ import '../cssCommonForm/common.scss';
 import { FormControl, Button, IconButton, OutlinedInput, TextField, InputLabel, InputAdornment } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
+import {Link} from 'react-router-dom';
 
 export default function SignIn() {
 
@@ -80,9 +80,9 @@ export default function SignIn() {
 
                                     </div>
                                     <hr style={{ 'width': '90%', 'margin': '0 auto' }} />
-                                    <a href="#" className="question-footer-form">
+                                    <Link to="/register" className="question-footer-form">
                                         <p className="mt-3 pb-4 ">Don't have an account?</p>
-                                    </a>
+                                    </Link>
 
                                 </div>
                             </div>
