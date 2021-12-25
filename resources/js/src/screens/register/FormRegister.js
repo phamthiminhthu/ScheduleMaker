@@ -4,7 +4,7 @@ import validate from './validateInfor';
 import { Container, Row, Col } from 'react-bootstrap';
 import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom';
-import { FormControl, Button, IconButton, OutlinedInput, TextField, InputLabel, InputAdornment } from '@mui/material';
+import { FormControl, Button, IconButton, OutlinedInput, TextField, InputLabel, InputAdornment, FormHelperText } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import './Register.scss';
@@ -12,7 +12,6 @@ import '../cssCommonForm/common.scss';
 
 const FormRegister = () => {
     const { handleChange, handleMouseDownPassword, handleClickShowPassword, handleClickShowConfirmPassword, values, handleSubmit, errors } = useForm(validate);
-    console.log("errors : ",  errors);
     return (
         <div id="register">
             <Container>
@@ -32,66 +31,142 @@ const FormRegister = () => {
                                 </div>
                                 <div className="form-input-register">
                                     <form className="mb-2" onSubmit={handleSubmit}>
-                                        <TextField label="FullName" variant="outlined" sx={{ m: 1, width: '90%' }}
-                                            className="form-info" value={values.fullname} name="fullname" onChange={handleChange('fullname')} />
-                                        {errors.fullname && <p>{errors.fullname}</p>}
-                                        {/* <TextField label="LastName" variant="outlined" sx={{ m: 1, width: '44%' }} className="form-info" /> */}
-                                        <TextField label="Email Address / Username" variant="outlined" sx={{ m: 1, width: '90%' }} className="form-info"
-                                            value={values.email} onChange={handleChange('email')} type="email" name="email" />
-                                        {errors.email && <p>{errors.email}</p>}
-                                        <FormControl sx={{ m: 1, width: '90%' }} variant="outlined" className="form-info">
-                                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                                            <OutlinedInput
-                                                className="form-info"
-                                                type={values.showPassword ? 'text' : 'password'}
-                                                value={values.password}
-                                                name="password"
-                                                onChange={handleChange('password')}
-                                                endAdornment={
-                                                    <InputAdornment position="end">
-                                                        <IconButton
-                                                            aria-label="toggle password visibility"
-                                                            onClick={handleClickShowPassword}
-                                                            onMouseDown={handleMouseDownPassword}
-                                                            edge="end"
-                                                        >
-                                                            {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                }
+                                        {errors.fullname ?
+                                            (<TextField label="FullName" variant="outlined" sx={{ m: 1, width: '90%' }}
+                                                className="form-info" value={values.fullname} name="fullname" onChange={handleChange('fullname')}
+                                                error helperText={errors.fullname} />) :
+                                            (<TextField label="FullName" variant="outlined" sx={{ m: 1, width: '90%' }}
+                                                className="form-info" value={values.fullname} name="fullname" onChange={handleChange('fullname')} />
+                                            )
+                                        }
+                                        {
+                                            errors.email ?
+                                                (<TextField label="Email Address / Username" variant="outlined" sx={{ m: 1, width: '90%' }} className="form-info"
+                                                    value={values.email} onChange={handleChange('email')} type="email" name="email" error helperText={errors.email} />) :
+                                                (<TextField label="Email Address / Username" variant="outlined" sx={{ m: 1, width: '90%' }} className="form-info"
+                                                    value={values.email} onChange={handleChange('email')} type="email" name="email" />)
+                                        }
+                                        {
+                                            errors.password ?
+                                                (<FormControl sx={{ m: 1, width: '90%' }} variant="outlined" className="form-info">
+                                                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                                    <OutlinedInput
+                                                        className="form-info"
+                                                        type={values.showPassword ? 'text' : 'password'}
+                                                        value={values.password}
+                                                        name="password"
+                                                        onChange={handleChange('password')}
+                                                        endAdornment={
+                                                            <InputAdornment position="end">
+                                                                <IconButton
+                                                                    aria-label="toggle password visibility"
+                                                                    onClick={handleClickShowPassword}
+                                                                    onMouseDown={handleMouseDownPassword}
+                                                                    edge="end"
+                                                                >
+                                                                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                                </IconButton>
+                                                            </InputAdornment>
+                                                        }
+                                                        error
+                                                        helperText={errors.password}
+                                                        label="Password"
+
+                                                    />
+                                                    <FormHelperText style={{ 'color': '#d32f2f' }}>
+                                                        {errors.password}
+                                                    </FormHelperText>
+
+                                                </FormControl>) :
+                                                (
+                                                    <FormControl sx={{ m: 1, width: '90%' }} variant="outlined" className="form-info">
+                                                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                                        <OutlinedInput
+                                                            className="form-info"
+                                                            type={values.showPassword ? 'text' : 'password'}
+                                                            value={values.password}
+                                                            name="password"
+                                                            onChange={handleChange('password')}
+                                                            endAdornment={
+                                                                <InputAdornment position="end">
+                                                                    <IconButton
+                                                                        aria-label="toggle password visibility"
+                                                                        onClick={handleClickShowPassword}
+                                                                        onMouseDown={handleMouseDownPassword}
+                                                                        edge="end"
+                                                                    >
+                                                                        {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                                    </IconButton>
+                                                                </InputAdornment>
+                                                            }
 
 
-                                                label="Password"
-                                            />
-                                            {errors.password && <p>{errors.password}</p>}
-                                        </FormControl>
-                                        <FormControl sx={{ m: 1, width: '90%' }} variant="outlined" className="form-info">
-                                            <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
-                                            <OutlinedInput
-                                                className="form-info"
-                                                type={values.showConfirmPassword ? 'text' : 'password'}
-                                                value={values.confirmPassword}
-                                                name="confirmPassword"
-                                                onChange={handleChange('confirmPassword')}
+                                                            label="Password"
 
-                                                endAdornment={
-                                                    <InputAdornment position="end">
-                                                        <IconButton
-                                                            aria-label="toggle password visibility"
-                                                            onClick={handleClickShowConfirmPassword}
-                                                            onMouseDown={handleMouseDownPassword}
-                                                            edge="end"
-                                                        >
-                                                            {values.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                }
-                                                label="Confirm Password"
+                                                        />
+                                                    </FormControl>
+                                                )
+
+                                        }
+
+                                        {
+                                            errors.confirmPassword ?
+                                                (<FormControl sx={{ m: 1, width: '90%' }} variant="outlined" className="form-info">
+                                                    <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+                                                    <OutlinedInput
+                                                        className="form-info"
+                                                        type={values.showConfirmPassword ? 'text' : 'password'}
+                                                        value={values.confirmPassword}
+                                                        name="confirmPassword"
+                                                        onChange={handleChange('confirmPassword')}
+
+                                                        endAdornment={
+                                                            <InputAdornment position="end">
+                                                                <IconButton
+                                                                    aria-label="toggle password visibility"
+                                                                    onClick={handleClickShowConfirmPassword}
+                                                                    onMouseDown={handleMouseDownPassword}
+                                                                    edge="end"
+                                                                >
+                                                                    {values.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                                                </IconButton>
+                                                            </InputAdornment>
+                                                        }
+                                                        label="Confirm Password"
+                                                        error
+                                                    />
+                                                    <FormHelperText  style={{ 'color': '#d32f2f' }}>
+                                                        {errors.confirmPassword}
+                                                    </FormHelperText>
+                                                </FormControl>) :
+                                                (<FormControl sx={{ m: 1, width: '90%' }} variant="outlined" className="form-info">
+                                                    <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+                                                    <OutlinedInput
+                                                        className="form-info"
+                                                        type={values.showConfirmPassword ? 'text' : 'password'}
+                                                        value={values.confirmPassword}
+                                                        name="confirmPassword"
+                                                        onChange={handleChange('confirmPassword')}
+
+                                                        endAdornment={
+                                                            <InputAdornment position="end">
+                                                                <IconButton
+                                                                    aria-label="toggle password visibility"
+                                                                    onClick={handleClickShowConfirmPassword}
+                                                                    onMouseDown={handleMouseDownPassword}
+                                                                    edge="end"
+                                                                >
+                                                                    {values.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                                                </IconButton>
+                                                            </InputAdornment>
+                                                        }
+                                                        label="Confirm Password"
 
 
-                                            />
-                                            { errors.confirmPassword && <p>{ errors.confirmPassword}</p>}
-                                        </FormControl>
+                                                    />
+                                                   
+                                                </FormControl>)
+                                        }
                                         <Button variant="contained" sx={{ width: '90%', m: 2 }} className="btn-sign-up rounded-0"
                                             type="submit" >Sign Up</Button>
 

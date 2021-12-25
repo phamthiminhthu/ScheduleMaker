@@ -1,5 +1,6 @@
 import  React, {useState} from 'react';
 import FormRegister from './FormRegister';
+import SignIn from '../signIn/SignIn';
 
 
 const Register = () => {
@@ -10,7 +11,7 @@ const Register = () => {
     return(
         <>
         {(!isSubmitted )? <FormRegister submitForm={submitForm} /> : (
-            <div>Ahihi</div>
+            <SignIn/>
 
         )}
         </>
