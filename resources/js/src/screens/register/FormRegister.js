@@ -172,7 +172,7 @@ const FormRegister = () => {
 
                                     </form>
                                     <hr style={{ 'width': '90%', 'margin': '0 auto' }} />
-                                    <Link to="/sign-in" className="question-footer-form">
+                                    <Link to="/login" className="question-footer-form">
                                         <p className="mt-3 pb-4 ">Already have an account?</p>
                                     </Link>
 

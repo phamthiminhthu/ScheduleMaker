@@ -18,7 +18,7 @@ import ImageLogo from '../../assets/logo.png';
 // const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Logout'];
 
-const ResponsiveAppBar = () => {
+const HeaderHasAuthor = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -88,4 +88,4 @@ const ResponsiveAppBar = () => {
         </AppBar>
     );
 };
-export default ResponsiveAppBar;
+export default HeaderHasAuthor;

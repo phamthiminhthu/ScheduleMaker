@@ -6,7 +6,9 @@ import SignIn from '../signIn/SignIn';
 const Register = () => {
     const [isSubmitted, setIsSubmitted] = useState(false);
     function submitForm(){
+        console.log("abc");
         setIsSubmitted(true);
+       
     }
     return(
         <>

@@ -1,3 +1,10 @@
-export default function HomeHasAuthor(){
-   
+import HeaderHasAuthor from "../../components/headerHasAuthor/HeaderHasAuthor";
+
+export default function HomeHasAuthor() {
+    return (
+        <div>
+            <HeaderHasAuthor/>
+        </div>
+    )
+
 }

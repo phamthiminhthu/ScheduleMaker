@@ -28,7 +28,7 @@ function Header() {
                                     <Nav.Link href="#news" className="text-white">News</Nav.Link>
                                     <Link to="/speaker-page"  className="text-white nav-link">Speakers</Link>
                                     <Nav.Link href="#contact" className="text-white">Contact</Nav.Link>
-                                    <Link to="/sign-in" className="nav-link">
+                                    <Link to="/login" className="nav-link">
                                         <Button variant="contained" className="border-0">Sign In</Button>
                                     </Link>
                                     <Link to="/register" className="nav-link">
