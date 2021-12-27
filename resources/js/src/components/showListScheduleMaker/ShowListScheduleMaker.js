@@ -30,15 +30,6 @@ export default function ShowListScheduleMaker() {
                                     <Tab label="One" value="1" />
                                     <Tab label="Two" value="2" />
                                     <Tab label="Three" value="3" />
-                                    <Tab label="Four" value="4" />
-                                    <Tab label="Five" value="5" />
-                                    <Tab label="Six" value="6" />
-                                    <Tab label="Seven" value="7" />
-                                    <Tab label="Eight" value="8" />
-                                    <Tab label="Nine" value="9" />
-                                    <Tab label="Ten" value="10" />
-                                    <Tab label="Eleven" value="11" />
-                                    <Tab label="Twelve" value="12" />
                                 </TabList>
                             </Box>
                             <TabPanel value="1"><ItemSchedule /></TabPanel>

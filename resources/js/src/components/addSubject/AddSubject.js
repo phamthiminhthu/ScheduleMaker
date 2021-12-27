@@ -18,6 +18,7 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import {Container} from 'react-bootstrap';
 
 
 //tao class
@@ -219,7 +220,7 @@ export default function AddSubject() {
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     return (
-        <div>
+        <Container>
             <div className="form-add-subject mt-5 mb-5">
                 <span>Mã môn học đăng ký : </span>
                 <TextField label="Nhập mã học phần .... " variant="outlined" style={{ 'margin-top': '-10px' }} />
@@ -304,6 +305,6 @@ export default function AddSubject() {
             <div class="btn-create-schedule text-center mt-5 mb-5">
                 <Button variant="contained">Create Schedule</Button>
             </div>
-        </div>
+        </Container>
     );
 }
