@@ -20,7 +20,7 @@ export default function TitlePage() {
                             <h3>Profile</h3>
                         </div>
                     </Col>
-                    <Col xs="6">
+                    {/* <Col xs="6">
                         <div className="bread-crumbs float-end">
                             <div role="presentation" onClick={handleClick}>
                                 <Breadcrumbs aria-label="breadcrumb"
@@ -39,7 +39,7 @@ export default function TitlePage() {
                                 </Breadcrumbs>
                             </div>
                         </div>
-                    </Col>
+                    </Col> */}
                 </Row>
             </Container>
         </div>

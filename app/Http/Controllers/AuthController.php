@@ -67,12 +67,17 @@ class AuthController extends Controller
         ];
     }
 
+    public function getDataUser(Request $request){
+        return $request->user();
+    }
+
     public function updateUser(Request $request){
 
         $request->validate([
             'name' => 'string',
-            'phone' => 'string|max:10|unique:users|nullable',
-            'birthday'=>'date_format: Y-m-d|nullable',
+            'email' => 'string',
+            'phone' => 'string|max:10|nullable',
+            'birthday'=>'date_format:Y-m-d|nullable',
             'gender'=>'string|nullable',
             'education'=>'string|nullable'
         ]);
@@ -80,12 +85,14 @@ class AuthController extends Controller
 
         $user = $request->user();
         $user->name = $request->name;
+        $user->email = $request->email;
         $user->birthday = $request->birthday;
         $user->phone = $request->phone;
         $user->gender = $request->gender;
         $user->education = $request->education;
         $user->save();
         return response()->json([
+            'status'=> 200,
             'data' => 'User updated'
         ]);
 

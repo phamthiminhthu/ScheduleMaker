@@ -24,7 +24,7 @@ export default function Profile() {
 
   return (
     <div id="profile">
-      <TitlePage/>
+      {/* <TitlePage/> */}
       <Container>
         <Row>
           <Col xs="12">
