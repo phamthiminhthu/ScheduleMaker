@@ -27,15 +27,16 @@ export default function UpdateProfile() {
                                     <TextField
                                         sx={{ m: 1 }}
                                         required
-                                        label="FirstName"
+                                        label="FullName"
                                         defaultValue="Pham"
+                                        fullWidth
                                     />
-                                    <TextField
+                                    {/* <TextField
                                         sx={{ m: 1 }}
                                         required
                                         label="LastName"
                                         defaultValue="Minh Thu"
-                                    />
+                                    /> */}
                                     <div className="m-2">
                                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                                             <DatePicker

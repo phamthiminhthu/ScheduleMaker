@@ -22,7 +22,7 @@ class AuthController extends Controller
             [
                 'name' => $fields['name'],
                 'email' => $fields['email'],
-                'password' => bcrypt($fields['password'])
+                'password' => bcrypt($fields['password']),
             ]);
         $token = $user->createToken('myapptoken')->plainTextToken;
 
@@ -65,6 +65,56 @@ class AuthController extends Controller
             'status' => "200",
             'message' => "Logged out"
         ];
+    }
+
+    public function updateUser(Request $request){
+
+        $request->validate([
+            'name' => 'string',
+            'phone' => 'string|max:10|unique:users|nullable',
+            'birthday'=>'date_format: Y-m-d|nullable',
+            'gender'=>'string|nullable',
+            'education'=>'string|nullable'
+        ]);
+
+
+        $user = $request->user();
+        $user->name = $request->name;
+        $user->birthday = $request->birthday;
+        $user->phone = $request->phone;
+        $user->gender = $request->gender;
+        $user->education = $request->education;
+        $user->save();
+        return response()->json([
+            'data' => 'User updated'
+        ]);
+
+    }
+
+    public function changePassword(Request $request){
+        $fields = $request->validate([
+            'old_password' => 'required|string|min:6',
+            'password' => 'required|string|min:6',
+            'confirm_password'=>'required|string|min:6|same:password',
+            
+        ]);
+
+        $user = $request->user();
+        if(Hash::check($fields['old_password'], $user->password)){
+            $user->update([
+                'password' => bcrypt($fields['password'])
+            ]);
+            return response()->json([
+               'message' => "Password change successfully",
+               'status' => 200
+            ]);
+        }else{
+            return response()->json([
+                'status' => 400,
+                'message' => 'Old password does not matched',
+            ], 400);
+        }
+
     }
 
 }
