@@ -1,9 +1,15 @@
 import ShowListScheduleMaker from "../../components/showListScheduleMaker/ShowListScheduleMaker";
+import HeaderHasAuthor from '../../components/headerHasAuthor/HeaderHasAuthor';
+import Footer from '../../components/footer/Footer';
+import AddSubject from '../../components/addSubject/AddSubject';
 
-export default function ScheduleMaker(){
+export default function ScheduleMaker() {
     return (
         <div>
-            <ShowListScheduleMaker/>
+            <HeaderHasAuthor />
+            <AddSubject/>
+            <ShowListScheduleMaker />
+            <Footer/>
         </div>
     )
 }

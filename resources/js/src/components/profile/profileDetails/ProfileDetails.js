@@ -1,8 +1,24 @@
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button, Table } from "react-bootstrap";
 import { Avatar } from '@mui/material';
+import axios from 'axios';
 
 export default function ProfileDetails() {
 
+    const [dataUser, setDataUser] = useState([])
+
+    useEffect(() => {
+        let load = true;
+        if (load) {
+            axios.get(`/api/current-user`).then(res => {
+                setDataUser(res.data);
+            });
+        }
+        return (() => {
+            load = false;
+        })
+
+    }, []);
 
     return (
         <div id="profile-details">
@@ -40,37 +56,32 @@ export default function ProfileDetails() {
                                         <tr >
                                             <td>FullName</td>
                                             <td style={{ 'width': '10%' }}>: </td>
-                                            <td>Phạm Thị Minh Thư</td>
+                                            {dataUser.name && <td> {dataUser.name} </td>}
                                         </tr>
                                         <tr >
                                             <td>Email</td>
                                             <td>: </td>
-                                            <td>minhthutb111@gmail.com</td>
-                                        </tr>
-                                        <tr >
-                                            <td>Full Name</td>
-                                            <td>: </td>
-                                            <td>Phạm Thị Minh Thư</td>
+                                            {dataUser.email && <td>{dataUser.email}</td>}
                                         </tr>
                                         <tr>
                                             <td>Gender</td>
                                             <td>: </td>
-                                            <td>Female</td>
+                                            {dataUser.gender ? <td>{dataUser.gender}</td> : <td>Chưa cập nhật</td>}
                                         </tr>
                                         <tr>
                                             <td>Date Of Birth</td>
                                             <td>: </td>
-                                            <td>01/11/2000</td>
+                                            {dataUser.birthday ? <td>{dataUser.birthday}</td> : <td>Chưa cập nhật</td>}
                                         </tr>
                                         <tr>
                                             <td>PhoneNumber</td>
                                             <td>: </td>
-                                            <td>0362989028</td>
+                                            {dataUser.phone ? <td>{dataUser.phone}</td> : <td>Chưa cập nhật</td>}
                                         </tr>
                                         <tr className="p-5">
                                             <td>Education</td>
                                             <td>: </td>
-                                            <td>Ha Noi University Techonlogy and Science</td>
+                                            {dataUser.education ? <td>{dataUser.education}</td> : <td>Thông tin chưa được cập nhật</td>}
                                         </tr>
                                     </tbody>
                                 </Table>

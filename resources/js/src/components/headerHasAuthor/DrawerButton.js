@@ -3,12 +3,9 @@ import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import { Nav } from 'react-bootstrap';
 import ImageLogo from '../../assets/logo.png';
@@ -21,18 +18,22 @@ import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SubjectIcon from '@mui/icons-material/Subject';
 import ClassIcon from '@mui/icons-material/Class';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 
 export default function SwipeableTemporaryDrawer() {
 
-    const listMenu = [{ iconItem: <HomeIcon/>, content: 'Home', state: true },
-    { iconItem: <PersonOutlineIcon/>, content: 'Tài khoản', state: true },
-    { iconItem: <ScheduleIcon/>, content: 'My Schedule', state: true },
-    { iconItem: <SpeakerNotesIcon/>, content: 'My notes', state: true },
-    { iconItem: <EventAvailableIcon/>, content: 'Schedule Maker', state: true },
-    { iconItem: <SubjectIcon/>, content: 'List Subject', state: true },
-    { iconItem: <ClassIcon/>, content: 'Create Subject', state: false },
-    { iconItem: <LogoutIcon/>, content: 'Logout', state: true },
+    const listMenu = [{ iconItem: <HomeIcon />, content: 'Home', linkRoute: '/student/home', state: true },
+    { iconItem: <PersonOutlineIcon />, content: 'Tài khoản', linkRoute: '/student/account', state: true },
+    { iconItem: <ScheduleIcon />, content: 'My Schedule', linkRoute: '/student/my-schedule', state: true },
+    { iconItem: <SpeakerNotesIcon />, content: 'My notes', linkRoute: '/student/my-notes', state: true },
+    { iconItem: <EventAvailableIcon />, content: 'Schedule Maker', linkRoute: '/student/schedule-maker', state: true },
+    { iconItem: <SubjectIcon />, content: 'List Subject', linkRoute: '/student/list-subject', state: true },
+    { iconItem: <ClassIcon />, content: 'Create Subject', linkRoute: '/student/create-subject', state: false },
+    { iconItem: <LogoutIcon />, content: 'Logout', linkRoute: '/student/my-schedule', state: true },
     ];
+
 
     const [state, setState] = React.useState({
 
@@ -51,6 +52,23 @@ export default function SwipeableTemporaryDrawer() {
         setState({ ...state, [anchor]: open });
     };
 
+    const history = useNavigate();
+
+    const logoutSubmit = (e) => {
+        e.preventDefault();
+        axios.post(`/api/logout`).then(res => {
+            if(res.status === 200){
+                console.log(res);
+                localStorage.removeItem('auth_token')
+                localStorage.removeItem('auth_email')
+                history('/')
+            }
+        })
+
+      
+
+    }
+
     const list = (anchor) => (
         <Box
             sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
@@ -62,7 +80,7 @@ export default function SwipeableTemporaryDrawer() {
             <div className="header-avatar">
                 <Nav className="header-menu-toggle">
                     <Nav.Item>
-                        <FormatListBulletedIcon onclick={toggleDrawer(anchor, false)} className='btn-icon-menu'></FormatListBulletedIcon>
+                        <FormatListBulletedIcon onClick={toggleDrawer(anchor, false)} className='btn-icon-menu'></FormatListBulletedIcon>
                     </Nav.Item>
                     <Nav.Item>
                         <img src={ImageLogo} className="image-menu-logo"></img>
@@ -73,15 +91,18 @@ export default function SwipeableTemporaryDrawer() {
             </div>
             <List>
                 {listMenu.map((item, index) => (
-                    <ListItem button key={item}>
+                    <ListItem button key={item.content + item.index}>
                         <ListItemIcon>
                             {item.iconItem}
                         </ListItemIcon>
-                        <ListItemText primary={item.content} />
+                        {
+                            item.content === 'Logout' ? <button className='btn border-0' onClick={logoutSubmit}> <ListItemText primary={item.content} /></button>
+                            : (<Link to={item.linkRoute} className="nav text-dark"> <ListItemText primary={item.content} /></Link>)
+                        }
+                        
                     </ListItem>
                 ))}
             </List>
-            {/* <Divider /> */}
         </Box>
     );
 

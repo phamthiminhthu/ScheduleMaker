@@ -5,6 +5,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import ItemSchedule from './ItemSchedule';
+import {Container, Row, Col} from 'react-bootstrap';
 
 
 
@@ -15,7 +16,10 @@ export default function ShowListScheduleMaker() {
         setValue(newValue);
     }
     return (
-        <div className="show-list-schedule-maker">
+       <Container>
+           <Row>
+               <Col xs="12">
+               <div className="show-list-schedule-maker">
             <h3 class="text-center mt-4 mb-4 title">All Schedule Maker</h3>
             <div className="show-list-schedule">
                 <div className="text-center w-100 m-auto">
@@ -26,15 +30,6 @@ export default function ShowListScheduleMaker() {
                                     <Tab label="One" value="1" />
                                     <Tab label="Two" value="2" />
                                     <Tab label="Three" value="3" />
-                                    <Tab label="Four" value="4" />
-                                    <Tab label="Five" value="5" />
-                                    <Tab label="Six" value="6" />
-                                    <Tab label="Seven" value="7" />
-                                    <Tab label="Eight" value="8" />
-                                    <Tab label="Nine" value="9" />
-                                    <Tab label="Ten" value="10" />
-                                    <Tab label="Eleven" value="11" />
-                                    <Tab label="Twelve" value="12" />
                                 </TabList>
                             </Box>
                             <TabPanel value="1"><ItemSchedule /></TabPanel>
@@ -50,6 +45,9 @@ export default function ShowListScheduleMaker() {
 
 
         </div>
+               </Col>
+           </Row>
+       </Container>
     )
 
 }

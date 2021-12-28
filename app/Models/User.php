@@ -31,6 +31,10 @@ class User extends Authenticatable
         'accountType',
         'active',
         'password',
+        'phone',
+        'birthday',
+        'gender',
+        'education'
     ];
 
     /**

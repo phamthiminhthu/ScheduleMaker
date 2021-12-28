@@ -4,16 +4,100 @@ import { TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/mater
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import moment from 'moment';
 
 import './UpdateProfile.scss';
+import axios from 'axios';
 
 export default function UpdateProfile() {
-    const [value, setValue] = React.useState(new Date());
-    const [gender, setGender] = React.useState('Female');
+    const [dataUser, setDataUser] = React.useState(
+        {
+            name: '',
+            email: '',
+            phone: '',
+            gender: '',
+            education: '',
+            birthday: null
+        }
+    );
+    const [loading, setLoading] = React.useState(false);
 
-    const handleChange = (event) => {
-        setGender(event.target.value);
+
+    React.useEffect(() => {
+        let load = true;
+        if (load) {
+            axios.get(`/api/current-user`).then(res => {
+                setDataUser(
+                    {
+                        name: res.data.name,
+                        email: res.data.email,
+                        phone: res.data.phone,
+                        gender: res.data.gender,
+                        education: res.data.education,
+                        birthday: res.data.birthday,
+                    }
+                );
+            });
+        }
+        return (() => {
+            load = false;
+        })
+
+    }, []);
+
+
+    const handleChange = (props) => (e) => {
+        setDataUser({ ...dataUser, [props]: e.target.value });
+    }
+    const handleChangeTime = (props) => (e) => {
+        setDataUser({ ...dataUser, [props]: e });
+    }
+    const [open, setOpen] = React.useState(false);
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
     };
+
+
+    const onEditSubmit = async (e) => {
+        e.preventDefault();
+        if(moment(dataUser.birthday, 'YYYY-dd-mm', true).isValid()){
+            dataUser.birthday.setHours(dataUser.birthday.getHours() + 7);
+            dataUser.birthday = dataUser.birthday.toISOString().slice(0, 10);
+        }
+       
+        const data = {
+            name: dataUser.name,
+            email: dataUser.email,
+            phone: dataUser.phone,
+            gender: dataUser.gender,
+            education: dataUser.education,
+            birthday: dataUser.birthday
+        }
+        setLoading(true);
+        try {
+            await axios.post(`/api/update-profile`, data).then(res => {
+                if (res.status === 200) {
+                    console.log("update successfully")
+                    setOpen(true);
+                }
+            });
+        } catch {
+            console.log("update fails");
+
+        } finally {
+            setLoading(false);
+
+        }
+
+    }
+
+
     return (
         <div className="update-profile">
             <Container>
@@ -26,25 +110,20 @@ export default function UpdateProfile() {
 
                                     <TextField
                                         sx={{ m: 1 }}
-                                        required
-                                        label="FirstName"
-                                        defaultValue="Pham"
-                                    />
-                                    <TextField
-                                        sx={{ m: 1 }}
-                                        required
-                                        label="LastName"
-                                        defaultValue="Minh Thu"
+                                        label="FullName"
+                                        variant="outlined"
+                                        fullWidth
+                                        value={dataUser.name}
+                                        onChange={handleChange('name')}
+
                                     />
                                     <div className="m-2">
                                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                                             <DatePicker
                                                 views={['day', 'month', 'year']}
                                                 label="Date Of Birth"
-                                                value={value}
-                                                onChange={(newValue) => {
-                                                    setValue(newValue);
-                                                }}
+                                                value={dataUser.birthday != null ? dataUser.birthday : null}
+                                                onChange={handleChangeTime('birthday')}
                                                 renderInput={(params) => <TextField {...params} helperText={null} />}
                                             />
                                         </LocalizationProvider>
@@ -54,9 +133,10 @@ export default function UpdateProfile() {
                                         <InputLabel id="demo-simple-select-label" required>Gender</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
-                                            value={gender}
                                             label="Gender"
-                                            onChange={handleChange}
+                                            value={dataUser.gender != null ? dataUser.gender : ""}
+                                            onChange={handleChange('gender')}
+
                                         >
                                             <MenuItem value='Female'>Female</MenuItem>
                                             <MenuItem value='Male'>Male</MenuItem>
@@ -65,10 +145,11 @@ export default function UpdateProfile() {
                                     <TextField
                                         sx={{ m: 1 }}
                                         fullWidth
+                                        variant="outlined"
                                         disabled
                                         id="outlined-disabled"
                                         label="Education"
-                                        defaultValue="HaNoi University Techonlogy and Science"
+                                        value={dataUser.education}
                                     />
 
 
@@ -85,14 +166,16 @@ export default function UpdateProfile() {
                                     sx={{ m: 1 }}
                                     required
                                     label="Contact Phone"
-                                    defaultValue="0362989028"
+                                    value={dataUser.phone != null ? dataUser.phone : null}
+                                    onChange={handleChange('phone')}
                                 />
                                 <TextField
                                     className="w-50"
                                     sx={{ m: 1 }}
                                     required
+                                    disabled
                                     label="Email"
-                                    defaultValue="minhthutb111@gmail.com"
+                                    value={dataUser.email}
                                 />
 
                                 <TextField
@@ -107,7 +190,14 @@ export default function UpdateProfile() {
                     </Col>
                     <Col xs="12">
                         <div className="float-end">
-                            <Button className="mx-1 mt-3 button-profile" variant="primary">Update profile</Button>
+                            <Button onClick={onEditSubmit} className="mx-1 mt-3 button-profile" variant="primary" disabled={loading}>
+                                {loading ? "Loading" : "Update profile"}
+                            </Button>
+                            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                                   Update profile successfully!
+                                </Alert>
+                            </Snackbar>
                         </div>
                     </Col>
                 </Row>
