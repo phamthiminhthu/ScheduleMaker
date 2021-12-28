@@ -13,34 +13,38 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 function Footer() {
     return (
         <div id="footer">
-            <div className="footer-background">
+            <div className="footer-background mt-5">
                 <Container>
                     <Row>
-                        <div className="search-sign-up margin-items">
-                            <Col xs={12}>
-                                <h3 className="text-center mb-0">Join Us</h3>
-                            </Col>
-                            <div className="form-signUp text-center">
-                                <Row>
-                                    <Col xs="12">
-                                        <FormControl>
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    justifyContent: 'center',
-                                                    p: 1,
-                                                    m: 1
-                                                }}>
-                                                <Form.Control type="email" placeholder="Enter your email Address" className="input-email" />
-                                                <Button variant="primary">SUBSCRIBE</Button>
-                                            </Box>
-
-                                        </FormControl>
+                        {
+                            !localStorage.getItem('auth_token') && (
+                                <div className="search-sign-up margin-items">
+                                    <Col xs={12}>
+                                        <h3 className="text-center mb-0">Join Us</h3>
                                     </Col>
-                                </Row>
-                            </div>
+                                    <div className="form-signUp text-center">
+                                        <Row>
+                                            <Col xs="12">
+                                                <FormControl>
+                                                    <Box
+                                                        sx={{
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            p: 1,
+                                                            m: 1
+                                                        }}>
+                                                        <Form.Control type="email" placeholder="Enter your email Address" className="input-email" />
+                                                        <Button variant="primary">SUBSCRIBE</Button>
+                                                    </Box>
 
-                        </div>
+                                                </FormControl>
+                                            </Col>
+                                        </Row>
+                                    </div>
+
+                                </div>
+                            )
+                        }
                         <div className="contact-us mt-5">
                             <Row>
                                 <Col xs="4">
@@ -57,7 +61,7 @@ function Footer() {
                                                     <ListItemIcon>
                                                         <MarkEmailUnreadIcon></MarkEmailUnreadIcon>
                                                     </ListItemIcon>
-                                                    <ListItemText className="info-contact"> 
+                                                    <ListItemText className="info-contact">
                                                         wschedulebk@gmail.com
                                                     </ListItemText>
 
@@ -118,8 +122,8 @@ function Footer() {
                                 </Col>
                                 <Col xs="12" className="pt-2" >
                                     <p className="text-center info-contact">
-                                        <span style={{'color':'#efa506'}}>© </span>
-                                        <span>2021 Emeet is powered by <span style={{'color':'#efa506'}}>Minh Thư</span> </span>
+                                        <span style={{ 'color': '#efa506' }}>© </span>
+                                        <span>2021 Emeet is powered by <span style={{ 'color': '#efa506' }}>Minh Thư</span> </span>
                                         <span>
                                             The property of their owners.
                                         </span>

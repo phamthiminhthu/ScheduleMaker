@@ -4,6 +4,8 @@ import Alert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
+import { set } from 'date-fns';
+import { appendErrors } from 'react-hook-form';
 
 
 export default function ChangePassword() {
@@ -13,29 +15,16 @@ export default function ChangePassword() {
         confirm_password: ''
     });
 
+    const [errors, setErrors] = React.useState([]);
+    const [matchErrors, setMatchErrors] = React.useState([]);
+
+
     const handleChange = (props) => e => {
         setPasswd({ ...passwd, [props]: e.target.value });
     }
     const [loading, setLoading] = React.useState(false);
-    const [errors, setErrors] = React.useState([]);
-    const [errorsMatchOldPasswd, setErrorsMatchOldPasswd] = React.useState('');
 
-    function validate(passwd) {
-        let errors = {}
-        if (!passwd.old_password) {
-            errors.old_password = "Old password is required"
-        }
-        if (!passwd.new_password) {
-            errors.new_password = "New Password is required"
-        }
-        if (!passwd.confirm_password) {
-            errors.confirm_password = "Confirm  Password is required"
-        }
-        if (passwd.confirm_password != passwd.new_password) {
-            errors.matchPassword = "The confirm password and password must match"
-        }
-        setErrors(errors);
-    }
+    
     const [open, setOpen] = React.useState(false);
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -47,7 +36,6 @@ export default function ChangePassword() {
     const handleChangePassword = async (e) => {
         setLoading(true);
         e.preventDefault();
-        console.log(passwd);
         const data = {
             old_password: passwd.old_password,
             password: passwd.new_password,
@@ -56,6 +44,8 @@ export default function ChangePassword() {
         try {
             await axios.post(`/api/change-password`, data).then(res => {
                 if (res.status === 200) {
+                    setErrors([]);
+                    setMatchErrors('');
                     console.log("change password successfully")
                     setOpen(true);
                 }
@@ -63,16 +53,22 @@ export default function ChangePassword() {
             });
         } catch (e) {
             if (e.response.status === 400) {
-                setErrorsMatchOldPasswd(e.response.message);
+                setMatchErrors(e.response.data.message)
+                setErrors([]);
+            } else {
+                setErrors(e.response.data.errors);
+                setMatchErrors('');
             }
 
         } finally {
             setLoading(false);
         }
 
+        console.log(errors);
 
     }
 
+    
 
     return (
         <div className="change-password">
@@ -86,17 +82,41 @@ export default function ChangePassword() {
                             <Card border="light">
                                 <Card.Header className="text-profile">Change password</Card.Header>
                                 <Card.Body>
-                                    <TextField sx={{ m: 1 }} label="Current Password" variant="outlined"
-                                        value={passwd.old_password} onChange={handleChange('old_password')}
-                                    />
-                                    <div >
-                                        <TextField sx={{ m: 1 }} label="New Password" variant="outlined" value={passwd.new_password}
-                                            onChange={handleChange('new_password')}
-                                        />
 
-                                        <TextField sx={{ m: 1 }} label="Confirm Password" variant="outlined"
-                                            value={passwd.confirm_password} onChange={handleChange('confirm_password')}
-                                        />
+                                    {errors.old_password ?
+                                        (<TextField sx={{ m: 1 }} label="Current Password" variant="outlined"
+                                            value={passwd.old_password} onChange={handleChange('old_password')}
+                                            error helperText={errors.old_password}
+                                        />) : (matchErrors != '' ?
+                                            (<TextField sx={{ m: 1 }} label="Current Password" variant="outlined"
+                                                value={passwd.old_password} onChange={handleChange('old_password')}
+                                                error helperText={matchErrors}
+                                            />)
+                                            :
+                                            (<TextField sx={{ m: 1 }} label="Current Password" variant="outlined"
+                                                value={passwd.old_password} onChange={handleChange('old_password')}
+                                            />))
+                                    }
+                                    <div >
+                                        {
+                                            errors.password ?
+                                                (<TextField sx={{ m: 1 }} label="New Password" variant="outlined" value={passwd.new_password}
+                                                    onChange={handleChange('new_password')}
+                                                    error helperText={errors.password} />) :
+                                                (<TextField sx={{ m: 1 }} label="New Password" variant="outlined" value={passwd.new_password}
+                                                    onChange={handleChange('new_password')}
+                                                />)
+                                        }
+
+                                        {
+                                            errors.confirm_password ?
+                                                (<TextField sx={{ m: 1 }} label="Confirm Password" variant="outlined"
+                                                    value={passwd.confirm_password} onChange={handleChange('confirm_password')}
+                                                    error helperText={errors.confirm_password} />) :
+                                                (<TextField sx={{ m: 1 }} label="Confirm Password" variant="outlined"
+                                                    value={passwd.confirm_password} onChange={handleChange('confirm_password')}
+                                                />)
+                                        }
                                     </div>
                                     <div className="float-end">
                                         <Button className="mx-1 mt-3 button-profile" variant="primary" onClick={handleChangePassword}
