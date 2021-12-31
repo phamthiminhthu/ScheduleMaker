@@ -113,8 +113,8 @@ export default function CalendarNotes() {
       startime: clickInfo.event.start,
       endtime: clickInfo.event.end
     });
-    
-    
+
+
 
   }
 
@@ -124,12 +124,12 @@ export default function CalendarNotes() {
     if (moment(events.startime, 'YYYY-dd-mm', true).isValid()) {
       events.startime.setHours(events.startime.getHours() + 7)
       events.startime = events.startime.toISOString().slice(0, 19)
-     
+
     }
     if (moment(events.endtime, 'YYYY-dd-mm', true).isValid()) {
       events.endtime.setHours(events.endtime.getHours() + 7)
       events.endtime = events.endtime.toISOString().slice(0, 19)
-     
+
     }
     selectInfo.event.setProp('title', events.title);
     selectInfo.event.setStart(events.startime);
@@ -139,12 +139,12 @@ export default function CalendarNotes() {
       title_note: events.title,
       startime: reconvert(events.startime),
       endtime: reconvert(events.endtime),
-      description:events.description
+      description: events.description
     }
     axios.post(`/api/update-note/${idCurrent}`, data).then(res => {
       console.log("Update successfully");
-    
-    }).catch((e)=>{
+
+    }).catch((e) => {
 
     });
 
@@ -168,6 +168,11 @@ export default function CalendarNotes() {
   const [idMax, setIdMax] = useState(0);
   const [stateGetId, setStateGetId] = useState(false);
   const handleSave = async () => {
+    await axios.get(`/api/get-event-id-max`).then((res) => {
+      setIdMax(res.data.noteID)
+      setStateGetId(true);
+      
+    })
 
     if (selectInfo) {
       let calendarApi = selectInfo.view.calendar
@@ -181,12 +186,6 @@ export default function CalendarNotes() {
           events.endtime.setHours(events.endtime.getHours() + 7)
           events.endtime = events.endtime.toISOString().slice(0, 19)
         }
-
-        axios.get(`/api/get-event-id-max`).then((res) => {
-          let idNewEvent = res.data.idMax + 1
-          setIdMax(idNewEvent)
-          setStateGetId(true);
-        })
         if (stateGetId) {
           calendarApi.addEvent({
             id: idMax,
@@ -204,7 +203,7 @@ export default function CalendarNotes() {
             endtime: reconvert(events.endtime),
             description: events.description
           }
-          axios.post(`/api/create-notes`, data).then(res => {
+          await axios.post(`/api/create-notes`, data).then(res => {
             if (res.data.status === 200) {
               setShow(false);
             }
@@ -232,7 +231,7 @@ export default function CalendarNotes() {
     if (selectInfo) {
       selectInfo.event.remove()
     }
-    axios.delete(`/api/delete-note/${idCurrent}`).then(res =>{
+    axios.delete(`/api/delete-note/${idCurrent}`).then(res => {
       console.log("Delete successfully")
 
     }).catch(e => {

@@ -30,7 +30,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('update-note/{id}', [NoteController::class, 'updateNote']);
     Route::get('get-note-by-id/{id}', [NoteController::class, 'getNote']);
     Route::get('get-all-notes', [NoteController::class, 'getAllNote']);
-    Route::get('get-event-id-max', [NoteController::class, 'getIdMaxEvent']);
+    //Route::get('get-event-id-max', [NoteController::class, 'getIdMaxEvent']);
+    Route::get('get-event-id-max', [NoteController::class, 'getIDLast']);
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

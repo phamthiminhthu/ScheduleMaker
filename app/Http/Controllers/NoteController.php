@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class NoteController extends Controller
 {
@@ -91,6 +92,15 @@ class NoteController extends Controller
             'note'=>  $result,
             'idMax' => $note,
             'status'=>200
+        ]);
+    }
+
+    public function getIDLast(){
+        $note = DB::select("SHOW TABLE STATUS LIKE 'notes'");
+        $noteID = $note[0]->Auto_increment;
+        return response()->json([
+            'noteID' =>  $noteID,
+            'message'=> "find success"
         ]);
     }
 }
