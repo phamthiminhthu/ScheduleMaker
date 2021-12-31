@@ -56,13 +56,9 @@ const useForm = (validate) => {
             }
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post(`/api/register`, data).then(res => {
-                    if (res.status === 200) {
-                        localStorage.setItem('auth_token', res.data.token);
-                        localStorage.setItem('auth_email', res.data.user.email);
-                        navigate('/student');
-                    } else {
-                        console.log("acjf");
-                    }
+                    localStorage.setItem('auth_token', res.data.token);
+                    localStorage.setItem('auth_email', res.data.user.email);
+                    navigate('/student');
 
                 });
             });

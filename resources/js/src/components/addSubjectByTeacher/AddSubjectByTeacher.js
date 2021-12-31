@@ -16,6 +16,24 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function AddSubjectByTeacher() {
 
+
+    const [subject, setSubject] = React.useState(
+        {
+            codeSubject: '',
+            nameSubject: '',
+            amountSubject: '',
+            amountMoney: '',
+            score: ''
+
+        }
+
+    )
+
+    const handleChangeValueSubject = (props) => (e) => {
+        setSubject({...subject, [props]: e.target.value})
+
+    }
+
     const [listClass, setListClass] = React.useState(
         [{
             maLop: "",
@@ -181,13 +199,15 @@ export default function AddSubjectByTeacher() {
                                 <p className="name-title-form">Mã HP:</p>
                             </Col>
                             <Col xs="3 mb-3">
-                                <TextField fullWidth label="Mã học phần" variant="outlined" />
+                                <TextField fullWidth value = {subject.codeSubject} 
+                                label="Mã học phần" variant="outlined" onChange={handleChangeValueSubject('codeSubject')} />
                             </Col>
                             <Col xs="2">
                                 <p className="name-title-form">Tên HP: </p>
                             </Col>
                             <Col xs="5">
-                                <TextField fullWidth label="Tên học phần" variant="outlined" />
+                                <TextField fullWidth label="Tên học phần" variant="outlined"
+                                value={subject.nameSubject}  onChange={handleChangeValueSubject('nameSubject')}/>
                             </Col>
                             <Col xs="2">
                                 <p className="name-title-form">TC học phần: </p>
@@ -198,7 +218,9 @@ export default function AddSubjectByTeacher() {
                                     type="number"
                                     inputProps={{ inputMode: 'numeric', min: "0", pattern: '[0-9]*' }}
                                     label="Tín chỉ"
-                                    variant="outlined" />
+                                    variant="outlined" 
+                                    value={subject.amountSubject}
+                                    onChange={handleChangeValueSubject('amountSubject')}/>
                             </Col>
                             <Col xs="2">
                                 <p className="name-title-form">TC học phí: </p>
@@ -209,7 +231,9 @@ export default function AddSubjectByTeacher() {
                                     type="number"
                                     inputProps={{ inputMode: 'numeric', min: "0", pattern: '[0-9]*' }}
                                     label="Tín chỉ"
-                                    variant="outlined" />
+                                    variant="outlined"
+                                    value={subject.amountMoney} 
+                                    onChange={handleChangeValueSubject('amoutMoney')}/>
                             </Col>
                             <Col xs="2">
                                 <p className="name-title-form">Hệ số điểm: </p>
@@ -219,7 +243,9 @@ export default function AddSubjectByTeacher() {
                                     fullWidth
                                     inputProps={{ min: "0", max: "1", pattern: '[0-1].[1-9]' }}
                                     label="Hệ số"
-                                    variant="outlined" />
+                                    variant="outlined"
+                                    value={subject.score}
+                                    onChange={handleChangeValueSubject('score')} />
                             </Col>
 
                         </Row>
