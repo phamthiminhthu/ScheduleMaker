@@ -15,6 +15,10 @@ export default function ChangePassword() {
         confirm_password: ''
     });
 
+    // axios.get(`/current-user`).then(res=>{
+    //     console.log("current", res);
+    // })
+
     const [errors, setErrors] = React.useState([]);
     const [matchErrors, setMatchErrors] = React.useState([]);
 

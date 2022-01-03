@@ -14,14 +14,13 @@ class CreateSubjectsTable extends Migration
     public function up()
     {
         Schema::create('subjects', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('code_subject');
-            $table->string('name_subject');
+            $table->string('code_subject')->primary();
             $table->integer('amount_subject');
-            $table->integer('amount_money');
-            $table->float('score');
-            $table->integer('status')->default('1');
-            $table->timestamps();
+            $table->string('name_subject');
+            $table->string('type_subject');
+            $table->string('week_learn');
+            $table->integer('semester');
+            //$table->timestamps();
         });
     }
 

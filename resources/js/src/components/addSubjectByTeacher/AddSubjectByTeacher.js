@@ -43,6 +43,8 @@ export default function AddSubjectByTeacher() {
             endtime: new Date()
         }]
     );
+
+    
     function addClassSubject() {
         const newList = [...listClass, {
             maLop: "",
@@ -84,6 +86,11 @@ export default function AddSubjectByTeacher() {
         setListClass(newListClass);
     }
 
+
+    const handleSave = () => {
+        
+
+    }
     const showListClass = (listClass) => {
 
         return (
@@ -262,7 +269,7 @@ export default function AddSubjectByTeacher() {
                     </div>
                 </div>
                 <div>
-                    <Button variant="contained">Save</Button>
+                    <Button variant="contained" onClick={handleSave}>Save</Button>
                 </div>
 
             </div>

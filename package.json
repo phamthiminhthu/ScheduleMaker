@@ -38,6 +38,7 @@
         "@mui/material": "^5.2.5",
         "@mui/styles": "^5.2.3",
         "@mui/x-data-grid": "^5.2.1",
+        "@mui/x-data-grid-pro": "^5.2.1",
         "date-fns": "^2.27.0",
         "moment": "^2.29.1",
         "react-bootstrap": "^2.0.4",

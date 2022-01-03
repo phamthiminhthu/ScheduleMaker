@@ -20,7 +20,7 @@ export default function ShowListScheduleMaker() {
            <Row>
                <Col xs="12">
                <div className="show-list-schedule-maker">
-            <h3 class="text-center mt-4 mb-4 title">All Schedule Maker</h3>
+            <h3 className="text-center mt-4 mb-4 title">All Schedule Maker</h3>
             <div className="show-list-schedule">
                 <div className="text-center w-100 m-auto">
                     <Box sx={{ width: '100%', typography: 'body1' }}>

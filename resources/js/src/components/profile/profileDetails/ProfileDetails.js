@@ -20,6 +20,7 @@ export default function ProfileDetails() {
 
     }, []);
 
+   
     return (
         <div id="profile-details">
             <Container>

@@ -18,36 +18,21 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import {Container} from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
+import './AddSubject.scss';
 
 
 //tao class
-function createData(courseID, courseName, tinChiHocPhan, tinChiHocPhi, heSoDiem) {
+function createData(courseID, courseName, tinChiHocPhan, typeCourse, weekLearn) {
     return {
         courseID,
         courseName,
         tinChiHocPhan,
-        tinChiHocPhi,
-        heSoDiem,
+        typeCourse,
+        weekLearn,
     };
 }
 
-const rows = [
-    createData('MI100', "Giải tích", 3, 5, 0.7),
-    createData('MI1010', "Đại số", 3, 5, 0.7),
-    createData('IT4194', "Hệ quản trị mạng hệ điều hành Linux", 2, 2, 0.7),
-    createData('IT2190', "Kiến trúc máy tính", 2, 2, 0.7),
-    createData('IT2029', "Thực hành lập trình mạng", 2, 2, 0.7),
-];
-
-
-
-
-
-
-
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
 
 const headCells = [
     {
@@ -69,24 +54,23 @@ const headCells = [
         label: 'Tín chỉ học phần',
     },
     {
-        id: 'tinChiHocPhi',
-        numeric: true,
+        id: 'typeCourse',
+        numeric: false,
         disablePadding: false,
-        label: 'Tín chỉ học phí',
+        label: 'Loại lớp',
     },
     {
-        id: 'heSoDiem',
-        numeric: true,
+        id: 'weekLearn',
+        numeric: false,
         disablePadding: false,
-        label: 'Hệ số điểm',
+        label: 'Tuần học',
     },
 ];
 
+
+
 function EnhancedTableHead(props) {
-    const { onSelectAllClick, numSelected, rowCount } =
-        props;
-
-
+    const { onSelectAllClick, numSelected, rowCount } = props;
     return (
         <TableHead>
             <TableRow>
@@ -94,7 +78,7 @@ function EnhancedTableHead(props) {
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
-                        align={headCell.disablePadding ? "none" : "center"}
+                        align={headCell.disablePadding ? "left" : "inherit"}
                     >
                         <TableSortLabel
                         >
@@ -126,7 +110,7 @@ EnhancedTableHead.propTypes = {
 };
 
 const EnhancedTableToolbar = (props) => {
-    const { numSelected } = props;
+    const { handleClickDelete, numSelected, totalAmountSubject } = props;
 
     return (
         <Toolbar
@@ -155,13 +139,13 @@ const EnhancedTableToolbar = (props) => {
                     id="tableTitle"
                     component="div"
                 >
-                    Tổng số tín chỉ  = 12
+                    Tổng số tín chỉ  = {totalAmountSubject}
                 </Typography>
             )}
 
             {numSelected > 0 ? (
                 <Tooltip title="Delete">
-                    <IconButton>
+                    <IconButton onClick={handleClickDelete}>
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
@@ -172,6 +156,8 @@ const EnhancedTableToolbar = (props) => {
 
 EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
+    handleClickDelete: PropTypes.func.isRequired,
+    totalAmountSubject: PropTypes.number.isRequired
 };
 
 export default function AddSubject() {
@@ -180,6 +166,17 @@ export default function AddSubject() {
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rows, setRows] = React.useState([]);
+    const [totalAmountSubject, setTotalAmountSubject] = React.useState(0);
+
+    React.useEffect(() => {
+        let total = 0;
+        rows.forEach(element => {
+            total = total + element.tinChiHocPhan;
+        });
+        setTotalAmountSubject(total);
+
+    }, [rows]);
 
 
     const handleSelectAllClick = (event) => {
@@ -190,6 +187,7 @@ export default function AddSubject() {
         }
         setSelected([]);
     };
+
 
 
     const handleClick = (event, courseID) => {
@@ -213,24 +211,113 @@ export default function AddSubject() {
     };
 
 
+
+
     const isSelected = (courseID) => selected.indexOf(courseID) !== -1;
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+    const [codeSubject, setCodeSubject] = React.useState('');
+    const handleValueCodeSubject = (e) => {
+        setCodeSubject(e.target.value);
+    }
+
+    const [errors, setErrors] = React.useState("");
+
+    const addRegister = async () => {
+        const data = {
+            codeSubject: codeSubject
+        }
+        if (rows.length === 0) {
+            axios.post(`/api/subject/find-subject-by-code`, data).then(res => {
+                if (res.data.status === 200) {
+                    setErrors("");
+                    const newListSubject = [];
+                    newListSubject.push(...rows);
+                    newListSubject.push(createData(res.data.subject.code_subject, res.data.subject.name_subject, res.data.subject.amount_subject,
+                        res.data.subject.type_subject, res.data.subject.week_learn));
+                    setRows(newListSubject);
+
+                } else if (res.data.status === 404) {
+                    setErrors("Không tồn tại mã lớp");
+
+                }
+
+
+            }).catch(e => {
+                console.log(e);
+
+            });
+        }
+        else if (rows.length > 0) {
+            let check = 0;
+            rows.forEach(element => {
+                if (element.courseID === codeSubject) {
+                    setErrors("Mã lớp đã tồn tại");
+                    check = 1;
+                }
+            });
+            if(check === 0){
+                axios.post(`/api/subject/find-subject-by-code`, data).then(res => {
+                    if (res.data.status === 200) {
+                        setErrors("");
+                        const newListSubject = [];
+                        newListSubject.push(...rows);
+                        newListSubject.push(createData(res.data.subject.code_subject, res.data.subject.name_subject, res.data.subject.amount_subject,
+                            res.data.subject.type_subject, res.data.subject.week_learn));
+                        setRows(newListSubject);
+
+                    } else if (res.data.status === 404) {
+                        setErrors("Không tồn tại mã lớp");
+
+                    }
+                    
+
+
+                }).catch(e => {
+                    console.log(e);
+                });
+            }
+        }
+    }
+    const handleDelete = async () => {
+        setRows(rows.filter((r) => !selected.some((sr) => sr == r.courseID)));
+        setSelected([]);
+    }
+
+    const handleCreateSchedule = async() => {
+        const data = {
+            listSubject : rows
+        }
+        axios.post(`/api/schedule/list-subject`, data).then((res)=>{
+            console.log(res);
+        })
+
+
+    }
+
     return (
-        <Container>
+        <Container className="add-subject">
             <div className="form-add-subject mt-5 mb-5">
                 <span>Mã môn học đăng ký : </span>
-                <TextField label="Nhập mã học phần .... " variant="outlined" style={{ 'margin-top': '-10px' }} />
-                <Button variant="contained" className="mx-4">Đăng ký</Button>
+                {errors ?
+                    (
+                        <TextField label="Nhập mã học phần .... " variant="outlined" style={{ 'marginTop': '-10px' }}
+                            value={codeSubject} onChange={handleValueCodeSubject} error helperText={errors} />
+                    ) :
+                    (
+                        <TextField label="Mã học phần" variant="outlined" style={{ 'marginTop': '-10px' }}
+                            value={codeSubject} onChange={handleValueCodeSubject} />
+                    )}
+                <Button variant="contained" className="mx-4" onClick={addRegister}>Đăng ký</Button>
             </div>
             <Box sx={{ width: '100%' }}>
 
                 <Paper sx={{ width: '100%', mb: 2 }}>
                     <div>
-                        <h3 class="title text-center mt-3 mb-3 pt-3 pb-3">Danh sách môn học chọn tạo thời khoá biểu</h3>
+                        <h3 className="title text-center mt-3 mb-3 pt-3 pb-3">Danh sách môn học chọn tạo thời khoá biểu</h3>
                     </div>
                     <TableContainer>
                         <Table
@@ -268,10 +355,10 @@ export default function AddSubject() {
                                                 >
                                                     {row.courseID}
                                                 </TableCell>
-                                                <TableCell align="center">{row.courseName}</TableCell>
-                                                <TableCell align="center">{row.tinChiHocPhan}</TableCell>
-                                                <TableCell align="center">{row.tinChiHocPhi}</TableCell>
-                                                <TableCell align="center">{row.heSoDiem}</TableCell>
+                                                <TableCell align="left" className="content-subject">{row.courseName}</TableCell>
+                                                <TableCell align="left" className="content-subject">{row.tinChiHocPhan}</TableCell>
+                                                <TableCell align="left" className="content-subject">{row.typeCourse}</TableCell>
+                                                <TableCell align="left" className="content-subject">{row.weekLearn}</TableCell>
 
                                                 <TableCell padding="checkbox">
                                                     <Checkbox
@@ -297,13 +384,13 @@ export default function AddSubject() {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <EnhancedTableToolbar numSelected={selected.length} />
+                    <EnhancedTableToolbar numSelected={selected.length} handleClickDelete={handleDelete} totalAmountSubject={totalAmountSubject} />
                 </Paper>
 
             </Box>
 
-            <div class="btn-create-schedule text-center mt-5 mb-5">
-                <Button variant="contained">Create Schedule</Button>
+            <div className="btn-create-schedule text-center mt-5 mb-5">
+                <Button variant="contained" onClick={handleCreateSchedule}>Create Schedule</Button>
             </div>
         </Container>
     );

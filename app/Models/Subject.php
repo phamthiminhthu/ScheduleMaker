@@ -8,14 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Subject extends Model
 {
     //use HasFactory;
-
+    protected $primaryKey = 'code_subject';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    
     protected $fillable =[
          'code_subject',
-         'name_subject',
          'amount_subject',
-         'amount_money',
-         'score',
-         'status'
+         'name_subject',
+         'type_subject',
+         'week_learn',
+         'semester'
         
     ];
+
+    public function clazzes(){
+        return $this->hasMany(Clazz::class);
+    }
 }
