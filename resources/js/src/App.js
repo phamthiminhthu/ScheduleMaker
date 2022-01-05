@@ -17,6 +17,8 @@ import MyNotes from './screens/myNotes/MyNotes';
 import ScheduleMaker from './screens/scheduleMaker/ScheduleMaker';
 import CreateSubject from './screens/createSubject/CreateSubject';
 import SubjectList from './screens/listSubject/SubjectList';
+import CreateScheduleMaker from './screens/createMySchedule/CreateScheduleMaker';
+
 
 axios.defaults.baseURL="http://localhost:8000/";
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -46,7 +48,7 @@ function App() {
                <Route path='/student/schedule-maker' element={<ScheduleMaker/>}></Route>
                <Route path='/student/list-subject' element={<SubjectList/>}></Route>
                <Route path='/student/create-subject' element={<CreateSubject/>}></Route>
-               {/* <Route path='/student/' element={<Account/>}></Route> */}
+               <Route path='/student/create-my-schedule' element={<CreateScheduleMaker/>}></Route>
 
                
               

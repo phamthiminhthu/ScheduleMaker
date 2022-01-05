@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\ClazzController;
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,7 +47,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('class/list-class-by-id/{id}', [ClazzController::class, 'getClassBySubject']);
 
     //schedule
-    Route::post('schedule/list-subject', [SubjectController::class, 'getAllSchedule']);
+    Route::post('schedule/list-subject', [ScheduleController::class, 'createMySchedule']);
+
+    Route::get('schedule/my-subject-schedule', [ScheduleController::class, 'getListSubjectSchedule']);
+
+    Route::post('schedule/my-list-class-register', [ScheduleController::class, 'getListClassSchedule']);
+    Route::get('schedule/my-schedule-class-register', [ScheduleController::class, 'getListClassOfSubjectMySchedule']);
+    Route::get('schedule/clazz-id/{id}', [ScheduleController::class, 'getClassByIdClass']);
     // Route::get('/subject/class/list-class/{id}', [ClazzController::class, 'getClassBySubject']);
     // Route::get('/getall', [SubjectController::class, 'getAlll']);
 

@@ -19,7 +19,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Container } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import './AddSubject.scss';
+import axios from 'axios';
 
 
 //tao class
@@ -168,6 +170,32 @@ export default function AddSubject() {
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [rows, setRows] = React.useState([]);
     const [totalAmountSubject, setTotalAmountSubject] = React.useState(0);
+    const history = useNavigate();
+    const [isDisabled, setIsDisabled] = React.useState(true);
+
+
+
+
+    React.useEffect(function effectFunction() {
+        async function fetchData() {
+            await axios.get(`/api/schedule/my-subject-schedule`).then(res => {
+                const initSubject = res.data.listSubject;
+                const initSub = [];
+                initSubject.forEach(element => {
+                    initSub.push(createData(element.code_subject, element.name_subject, element.amount_subject,
+                        element.type_subject, element.week_learn));
+                });
+                setRows(initSub);
+
+            });
+        }
+        fetchData()
+
+
+    }, [])
+
+
+
 
     React.useEffect(() => {
         let total = 0;
@@ -175,8 +203,17 @@ export default function AddSubject() {
             total = total + element.tinChiHocPhan;
         });
         setTotalAmountSubject(total);
+        if (rows.length > 0) {
+            setIsDisabled(false);
+      
+        } else {
+            setIsDisabled(true);
+    
+        }
 
     }, [rows]);
+
+
 
 
     const handleSelectAllClick = (event) => {
@@ -187,7 +224,6 @@ export default function AddSubject() {
         }
         setSelected([]);
     };
-
 
 
     const handleClick = (event, courseID) => {
@@ -259,7 +295,7 @@ export default function AddSubject() {
                     check = 1;
                 }
             });
-            if(check === 0){
+            if (check === 0) {
                 axios.post(`/api/subject/find-subject-by-code`, data).then(res => {
                     if (res.data.status === 200) {
                         setErrors("");
@@ -273,7 +309,7 @@ export default function AddSubject() {
                         setErrors("Không tồn tại mã lớp");
 
                     }
-                    
+
 
 
                 }).catch(e => {
@@ -287,16 +323,18 @@ export default function AddSubject() {
         setSelected([]);
     }
 
-    const handleCreateSchedule = async() => {
+    const handleCreateSchedule = async () => {
         const data = {
-            listSubject : rows
+            listSubject: rows
         }
-        axios.post(`/api/schedule/list-subject`, data).then((res)=>{
-            console.log(res);
+        axios.post(`/api/schedule/list-subject`, data).then((res) => {
+            history('/student/create-my-schedule');
         })
 
 
     }
+
+  
 
     return (
         <Container className="add-subject">
@@ -330,6 +368,8 @@ export default function AddSubject() {
                                 onSelectAllClick={handleSelectAllClick}
                                 rowCount={rows.length}
                             />
+
+
                             <TableBody>
                                 {rows
                                     .map((row, index) => {
@@ -382,6 +422,8 @@ export default function AddSubject() {
                                     </TableRow>
                                 )}
                             </TableBody>
+
+
                         </Table>
                     </TableContainer>
                     <EnhancedTableToolbar numSelected={selected.length} handleClickDelete={handleDelete} totalAmountSubject={totalAmountSubject} />
@@ -390,7 +432,9 @@ export default function AddSubject() {
             </Box>
 
             <div className="btn-create-schedule text-center mt-5 mb-5">
-                <Button variant="contained" onClick={handleCreateSchedule}>Create Schedule</Button>
+
+                <Button  variant="contained" onClick={handleCreateSchedule} disabled={isDisabled}>Create Schedule</Button>
+                
             </div>
         </Container>
     );
