@@ -30,7 +30,6 @@ export default function SwipeableTemporaryDrawer() {
     { iconItem: <SpeakerNotesIcon />, content: 'My notes', linkRoute: '/student/my-notes', state: true },
     { iconItem: <EventAvailableIcon />, content: 'Schedule Maker', linkRoute: '/student/schedule-maker', state: true },
     { iconItem: <SubjectIcon />, content: 'List Subject', linkRoute: '/student/list-subject', state: true },
-    { iconItem: <ClassIcon />, content: 'Create Subject', linkRoute: '/student/create-subject', state: false },
     { iconItem: <LogoutIcon />, content: 'Logout', linkRoute: '/student/my-schedule', state: true },
     ];
 

@@ -26,11 +26,16 @@ export default function CreateMySchedule() {
     };
     const history = useNavigate();
 
-
     React.useEffect(function effectFunction() {
         async function fetchData() {
             await axios.get(`/api/schedule/my-subject-schedule`).then((res) => {
                 setListSubject(res.data.listClassBySubjectCode);
+                const getData = [...res.data.listClassByOneId];
+                const newListClazz = [];
+                getData.forEach(element => {
+                    newListClazz.push(element.id);
+                });
+                setListClass( newListClazz);
             })
         }
         fetchData()
@@ -40,9 +45,6 @@ export default function CreateMySchedule() {
         return moment(time, 'HH:mm').format("HH:mm");
 
     }
-
-
-
 
 
     const mapData = (listSubject) => {
@@ -95,7 +97,7 @@ export default function CreateMySchedule() {
         <Container className="mb-5">
 
             <Row>
-                <h3 className="title text-center mt-3 mb-5">
+                <h3 className="title text-center mt-5 mb-5">
                     Create My Schedule
                 </h3>
                 {mapData(listSubject)}

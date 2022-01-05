@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Auth;
 class ScheduleController extends Controller
 {
 
+    public function checkTimeClass($clazzOne, $clazzTwo){
+        
+
+    }
+
     public function getListClassBySubject($id)
     {
         $subject = Subject::where('code_subject', '=', $id)->first();
@@ -26,9 +31,16 @@ class ScheduleController extends Controller
         }
     }
 
+    public function getOneClassById($id)
+    {
+        $clazz = Clazz::findOrFail($id);
+        return $clazz;
+    }
+
     public function getListSubjectSchedule()
     {
         $listSubjectCode = Schedule::where('user_id', Auth::user()->id)->value('list_subject_code');
+        $listClassScheduleCode = Schedule::where('user_id', Auth::user()->id)->value('list_id_class');
         $listCourseID = explode(",", $listSubjectCode);
         $listClassOfSubject = array();
         $listSubject = array();
@@ -42,9 +54,19 @@ class ScheduleController extends Controller
                 }
             }
         }
+
+        if ($listClassScheduleCode != null) {
+            $listClassOneById = explode(",", $listClassScheduleCode);
+            $listClassByOneId = array();
+            foreach ($listClassOneById as $clazzId) {
+                array_push($listClassByOneId, $this->getOneClassById($clazzId));
+            }
+
+        }
         return response()->json([
             'listSubject' => $listSubject,
             'listClassBySubjectCode' => $listClassOfSubject,
+            'listClassByOneId' => $listClassByOneId,
             'message' => "Get successfully",
             'status' => 200,
         ]);
@@ -161,11 +183,6 @@ class ScheduleController extends Controller
 
     }
 
-    public function timecomp($a, $b)
-    {
-        return strtotime($b[0]) - strtotime($a[0]);
-    }
-
     public function getListClassOfSubjectMySchedule()
     {
         $strClass = Schedule::where('user_id', Auth::user()->id)->first()->value('list_id_class');
@@ -193,8 +210,5 @@ class ScheduleController extends Controller
 
         return $resultFinal;
     }
-
-
-    
 
 }

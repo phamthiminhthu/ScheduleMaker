@@ -75,7 +75,7 @@ function MyAssignmentsDemo() {
                                     {
                                         index.map((value) => {
                                             return (
-                                                <>
+                                                <div key={value.clazz_code + "clazz"}>
                                                     <ListItem alignItems="flex-start" className="list-schedule-items">
                                                         <ListItemAvatar>
                                                             <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
@@ -110,7 +110,7 @@ function MyAssignmentsDemo() {
                                                         />
                                                     </ListItem>
                                                     <Divider variant="inset" component="li" />
-                                                </>
+                                                </div>
                                             )
                                         })
                                     }

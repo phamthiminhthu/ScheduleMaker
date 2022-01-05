@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('schedule/my-list-class-register', [ScheduleController::class, 'getListClassSchedule']);
     Route::get('schedule/my-schedule-class-register', [ScheduleController::class, 'getListClassOfSubjectMySchedule']);
     Route::get('schedule/clazz-id/{id}', [ScheduleController::class, 'getClassByIdClass']);
+    Route::get('schedule/clazz-by-id/{id}', [ScheduleController::class, 'getOneClassById']);
     // Route::get('/subject/class/list-class/{id}', [ClazzController::class, 'getClassBySubject']);
     // Route::get('/getall', [SubjectController::class, 'getAlll']);
 

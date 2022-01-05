@@ -11,7 +11,7 @@ import './Speaker.scss';
 function eachMember(member) {
     return (
         <figure className="c4-izmir c4-border-bottom-left c4-image-rotate-right c4-gradient-bottom-right info-member"
-            style={{ "--primary-color": "rgba(85,75,185,.9)", '--secondary-color': 'rgba(85,75,185,.9)', ' -imageOpacity': '.1' }}>
+            style={{ "--primary-color": "rgba(85,75,185,.9)", '--secondary-color': 'rgba(85,75,185,.9)', 'ImageOpacity': '.1' }}>
             <img src={member.avatar} alt="Sample Image" />
             <figcaption className="c4-layout-bottom-left user-position">
                 <h3>{member.userName}</h3>
