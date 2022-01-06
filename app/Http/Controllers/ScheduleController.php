@@ -211,4 +211,10 @@ class ScheduleController extends Controller
         return $resultFinal;
     }
 
+
+    
+
+    public function compareTimeClazzes($listClazz){
+
+    }
 }

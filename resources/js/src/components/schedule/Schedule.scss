@@ -1,0 +1,51 @@
+#shedule {
+    .list-assignments {
+        .day-in-week {
+            width: 100%;
+            justify-content: center;
+            margin: 0 auto;
+            button {
+                width: calc(100% / 7);
+                padding: 35px;
+                background-color: white;
+                font-weight: bold;
+            }
+            .PrivateTabIndicator-colorSecondary-3 {
+                background-color: #efa506;
+            }
+        }
+    }
+
+    .list-schedule-subject {
+        min-height: 400px;
+        .list-schedule-items {
+            .subject {
+                .time-learn {
+                    background: rgba(239, 165, 6, 0.1);
+                    font-family: Oswald, sans-serif;
+                    font-size: 15px;
+                    line-height: 2;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    display: inline-block;
+                    margin: 0 0 0.5rem;
+                    padding: 0.2rem 1rem;
+                    border-radius: 25px;
+                    .morning-evening {
+                        color: #efa506;
+                    }
+                }
+                .name-subject {
+                    font-size: 24px;
+                    font-weight: 900;
+                    line-height: 2;
+                    margin: 0;
+                }
+                .date-learn {
+                    font-style: italic;
+                    line-height: 2;
+                }
+            }
+        }
+    }
+}

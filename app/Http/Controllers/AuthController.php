@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illmuinate\Http\Response;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    
 
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
-            'password'=> 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|confirmed',
         ]);
         $user = User::create(
             [
@@ -28,24 +28,25 @@ class AuthController extends Controller
 
         $response = [
             'status' => 200,
-            'user'=> $user,
-            'token'=>$token,
-            'message'=> "Registered Successfully",
+            'user' => $user,
+            'token' => $token,
+            'message' => "Registered Successfully",
         ];
         return response($response, 201);
-    
+
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $fields = $request->validate([
             'email' => 'required|string',
-            'password' => 'required|string'
+            'password' => 'required|string',
         ]);
 
         $user = User::where('email', $fields['email'])->first();
-        if(!$user || !Hash::check($fields['password'], $user->password)){
+        if (!$user || !Hash::check($fields['password'], $user->password)) {
             return response([
-                'status'=> 401,
+                'status' => 401,
                 'message' => 'Email của bạn hoặc mật khẩu không đúng, vui lòng thử lại',
             ], 401);
         }
@@ -59,29 +60,31 @@ class AuthController extends Controller
         return response($response, 201);
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         auth()->user()->tokens()->delete();
-        return[
+        return [
             'status' => "200",
-            'message' => "Logged out"
+            'message' => "Logged out",
         ];
     }
 
-    public function getDataUser(Request $request){
+    public function getDataUser(Request $request)
+    {
         return $request->user();
     }
 
-    public function updateUser(Request $request){
+    public function updateUser(Request $request)
+    {
 
         $request->validate([
             'name' => 'string',
             'email' => 'string',
             'phone' => 'string|max:10|nullable',
-            'birthday'=>'date_format:Y-m-d|nullable',
-            'gender'=>'string|nullable',
-            'education'=>'string|nullable'
+            'birthday' => 'date_format:Y-m-d|nullable',
+            'gender' => 'string|nullable',
+            'education' => 'string|nullable',
         ]);
-
 
         $user = $request->user();
         $user->name = $request->name;
@@ -92,30 +95,31 @@ class AuthController extends Controller
         $user->education = $request->education;
         $user->save();
         return response()->json([
-            'status'=> 200,
-            'data' => 'User updated'
+            'status' => 200,
+            'data' => 'User updated',
         ]);
 
     }
 
-    public function changePassword(Request $request){
+    public function changePassword(Request $request)
+    {
         $fields = $request->validate([
             'old_password' => 'required|string|min:6',
             'password' => 'required|string|min:6',
-            'confirm_password'=>'required|string|min:6|same:password',
-            
+            'confirm_password' => 'required|string|min:6|same:password',
+
         ]);
 
         $user = $request->user();
-        if(Hash::check($fields['old_password'], $user->password)){
+        if (Hash::check($fields['old_password'], $user->password)) {
             $user->update([
-                'password' => bcrypt($fields['password'])
+                'password' => bcrypt($fields['password']),
             ]);
             return response()->json([
-               'message' => "Password change successfully",
-               'status' => 200
+                'message' => "Password change successfully",
+                'status' => 200,
             ]);
-        }else{
+        } else {
             return response()->json([
                 'status' => 400,
                 'message' => 'Old password does not matched',
@@ -124,6 +128,25 @@ class AuthController extends Controller
 
     }
 
-    
+    public function uploadImage(Request $request)
+    {
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = $file->getClientOriginalName();
+            $finalName = date('His') . $filename;
+            $request->file('image')->storeAs('images/', $finalName, 'public');
+            $user = User::findOrFail(Auth::user()->id)->update(['avatar' => $finalName]);
+            return response()->json([
+                'message' => 'successfully upload avatar',
+                'user' => $user
+            ]);
+
+        } else {
+            return response()->json([
+                'message' => 'fail upload',
+            ]);
+        }
+    }
 
 }

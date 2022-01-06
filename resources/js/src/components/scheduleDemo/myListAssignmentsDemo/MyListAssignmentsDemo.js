@@ -7,13 +7,14 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import './MyListAssignmentsDemo.scss';
+import subjectImg from '../../../assets/subject.jpeg';
 
 export default function MyListAssignmentsDemo() {
     return (
         <List sx={{ width: '100%', bgcolor: 'background.paper' } } className="list-schedule-subject">
             <ListItem alignItems="flex-start" className="list-schedule-items">
                 <ListItemAvatar>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                    <Avatar alt="Remy Sharp" src={subjectImg} />
                 </ListItemAvatar>
                 <ListItemText
                     secondary={
@@ -48,7 +49,7 @@ export default function MyListAssignmentsDemo() {
            
             <ListItem alignItems="flex-start" className="list-schedule-items">
                 <ListItemAvatar>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                    <Avatar alt="Remy Sharp" src={subjectImg} />
                 </ListItemAvatar>
                 <ListItemText
                     secondary={

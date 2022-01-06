@@ -11,6 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import DrawerButton from './DrawerButton';
 import ImageLogo from '../../assets/logo.png';
+import avatar from '../../assets/avatarDefault.png';
 
 
 // const pages = ['Products', 'Pricing', 'Blog'];
@@ -53,7 +54,7 @@ const HeaderHasAuthor = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                <Avatar alt="Remy Sharp" src={avatar} />
                             </IconButton>
                         </Tooltip>
                         <Menu

@@ -25,6 +25,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/update-profile', [AuthController::class, 'updateUser']);
     Route::post('/change-password', [AuthController::class, 'changePassword']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/upload-image', [AuthController::class, 'uploadImage']);
 
     //note
     Route::post('/create-notes', [NoteController::class, 'createNote']);

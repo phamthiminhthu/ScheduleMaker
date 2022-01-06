@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button, Table } from "react-bootstrap";
 import { Avatar } from '@mui/material';
 import axios from 'axios';
+import avatar from '../../../assets/avatarDefault.png';
 
 export default function ProfileDetails() {
 
     const [dataUser, setDataUser] = useState([])
+    const [isUpload, setUpload] = useState(false);
 
     useEffect(() => {
         let load = true;
@@ -20,7 +22,33 @@ export default function ProfileDetails() {
 
     }, []);
 
-   
+    const [imagedata, setImagedata] = useState('');
+    const [image, setImage] = useState('');
+    const handleChangeImage = file => {
+        if (file.target.files.length !== 0) {
+            setImagedata(URL.createObjectURL(file.target.files[0]));
+            setImage(file.target.files[0]);
+            setUpload(true);
+        }else{
+            setUpload(false);
+        }
+
+    }
+
+    const submitDataImage = (e) => {
+        e.preventDefault();
+        setUpload(false);
+        const fData = new FormData();
+        fData.append('image', image);
+        axios.post(`/api/upload-image`, fData).then(res => {
+            console.log("response", res);
+
+        }).catch((e) => {
+            console.error('Failure', e);
+        })
+    }
+
+
     return (
         <div id="profile-details">
             <Container>
@@ -28,19 +56,26 @@ export default function ProfileDetails() {
                     <Col xs="3">
                         <Card>
                             <Card.Header className="text-profile">Profile Picture</Card.Header>
-                            <Card.Body className="text-center">
+                            <Card.Body className="text-center" as="form" onSubmit={submitDataImage}>
                                 <Card.Title>
                                     <Avatar
                                         alt="Remy Sharp"
-                                        src="/static/images/avatar/1.jpg"
-                                        sx={{ width: 70, height: 70 }}
+                                        src={ imagedata ? imagedata : avatar}
+                                        sx={{ width: 100, height: 100 }}
                                         className="m-auto"
                                     />
                                 </Card.Title>
-                                <Card.Text>
-                                    Upload/Change Your Profile Image
-                                </Card.Text>
-                                <Button variant="primary" className="button-profile">Upload Avatar</Button>
+                                <input
+                                    type="file"
+                                    id="file-id"
+                                    name="image"
+                                    onChange={handleChangeImage}
+                                    hidden
+                                 
+                                />
+                                <Button as="label" htmlFor="file-id" className="button-profile" style={{display : isUpload ? 'none' : 'block'}}>Upload</Button>
+                                <Button className="button-profile" type="submit" onClick={submitDataImage} style={{display : isUpload ? 'block' : 'none' }}>Save</Button>
+
                             </Card.Body>
                         </Card>
 
@@ -92,6 +127,6 @@ export default function ProfileDetails() {
                     </Col>
                 </Row>
             </Container>
-        </div>
+        </div >
     )
 }

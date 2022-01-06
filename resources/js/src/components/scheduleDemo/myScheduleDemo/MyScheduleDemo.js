@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import {Container, Row} from 'react-bootstrap';
 import demo from '../../../assets/footer-bg.jpeg'
 
+
 export default function MyScheduleDemo() {
     return (
        <div className="details-my-schedule-demo-image margin-items">

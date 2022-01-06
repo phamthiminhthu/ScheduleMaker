@@ -18,6 +18,7 @@ class AddNewFieldsToUsersTable extends Migration
             $table->date('birthday')->after('phone')->nullable();
             $table->string('gender')->after('birthday')->nullable();
             $table->string('education')->after('birthday')->default("Ha Noi University Techonlogy and Science");
+            $table->string('avatar')->after('education')->nullable();
         });
     }
 
