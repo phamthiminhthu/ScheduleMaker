@@ -89,7 +89,7 @@ export default function HomeMain() {
                             </div>
                         </div>
                         <div className="sub-card-body" style={{marginLeft:30}}>
-                            <h7>{data_list[1].description}</h7>
+                            <h6>{data_list[1].description}</h6>
                         </div>
                         <div className="sub-card-footer">
                             <button>{data_list[1].button}</button>

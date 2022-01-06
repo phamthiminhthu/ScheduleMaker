@@ -11,10 +11,6 @@ use Illuminate\Support\Facades\Auth;
 class ScheduleController extends Controller
 {
 
-    public function checkTimeClass($clazzOne, $clazzTwo){
-        
-
-    }
 
     public function getListClassBySubject($id)
     {
@@ -58,7 +54,7 @@ class ScheduleController extends Controller
 
         if ($listClassScheduleCode != null) {
             $listClassOneById = explode(",", $listClassScheduleCode);
-            
+
             foreach ($listClassOneById as $clazzId) {
                 array_push($listClassByOneId, $this->getOneClassById($clazzId));
             }
@@ -73,26 +69,104 @@ class ScheduleController extends Controller
         ]);
     }
 
+    public function compareTwoClazz($idClazzOne, $idClazzTwo)
+    {
+        $clazzOne = Clazz::findOrFail($idClazzOne);
+        $clazzTwo = Clazz::findOrFail($idClazzTwo);
+        $time1Start = $clazzOne->startime;
+        $time1End = $clazzOne->endtime;
+        $time2Start = $clazzTwo->startime;
+        $time2End = $clazzTwo->endtime;
+        $res = 1;
+
+        if ($time1Start == $time2Start || $time2Start <= $time1End) {
+            $res = 0;
+        }
+
+        return $res;
+    }
+
+    public function checkTimeClazzes($resultFinal)
+    {
+        $test = true;
+        foreach ($resultFinal as $key => $value) { 
+            if (count($value) >= 2) {
+                for ($i = 0; $i < count($value) - 1; $i++) {
+                    for ($j = $i + 1; $j < count($value); $j++) {
+                        if (($this->compareTwoClazz($value[$i]['id_class'], $value[$j]['id_class'])) == 0) {
+                            
+                            $test = false;
+                            return [
+                                'test'=>$test,
+                                'clazzOne'=>$value[$i],
+                                'clazzTwo'=>$value[$j],
+                                'key' => $key
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+
+        return [
+            'test' => $test,
+            'message' => "Succesfully"
+        ];
+    }
+
     //lấy ra lớp mà gửi lên
     public function getListClassSchedule(Request $request)
     {
         $listClass = $request->listClass;
+        $listClazz = $listClass;
+        $listClazz = implode(",",$listClazz);
         $str = "";
+        $listClassID = explode(",",  $listClazz);
+        $result = array();
+        foreach ($listClassID as $item) {
+            $res = $this->getClassByIdClass($item);
+            foreach ($res as $key => $values) {
+                if (!key_exists($key, $result)) {
+                    $result[$key][] = $values;
+                } else {
+                    $result[$key] = $result[$key];
+                    $result[$key][] = $values;
+                }
 
-        for ($i = 0; $i < count($listClass); $i++) {
-            if ($i < (count($listClass) - 1)) {
-                $str = $str . $listClass[$i] . ",";
-            } else {
-                $str = $str . $listClass[$i];
             }
+        };
+
+        $resultFinal = array();
+        foreach ($result as $i => $val) {
+            $col = array_column($val, "startime");
+            array_multisort($col, SORT_ASC, $val);
+            $resultFinal += array($i => $val);
         }
 
-        $schedule = Schedule::where('user_id', Auth::user()->id)->first()->update(['list_id_class' => $str]);
-        return response()->json([
-            'message' => 'updated successfully',
-            'status' => 200,
-            'schedule' => $schedule,
-        ]);
+        $test = $this->checkTimeClazzes($resultFinal);
+        if ($test['test']) {
+            for ($i = 0; $i < count($listClass); $i++) {
+                if ($i < (count($listClass) - 1)) {
+                    $str = $str . $listClass[$i] . ",";
+                } else {
+                    $str = $str . $listClass[$i];
+                }
+            }
+
+            $schedule = Schedule::where('user_id', Auth::user()->id)->first()->update(['list_id_class' => $str]);
+            return response()->json([
+                'message' => 'updated successfully',
+                'status' => 200,
+                'schedule' => $schedule,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Fails',
+                'clazzOneFails' => $test['clazzOne'],
+                'clazzTwoFails'=> $test ['clazzTwo']
+            ]);
+        }
 
     }
 
@@ -145,13 +219,17 @@ class ScheduleController extends Controller
             $res = Clazz::where('clazz_code', '=', $clazz_code)->get();
             foreach ($res as $item) {
                 $value = [
+
                     'name_subject' => $name_subject,
+                    'id_class' => $item->id,
+                    'id_subject'=> $item->subject_id,
                     'clazz_code' => $item->clazz_code,
                     'clazz_code_sub' => $item->clazz_code_sub,
                     'name_clazz' => $item->name_clazz,
                     'week_day' => $item->week_day,
                     'startime' => $item->startime,
                     'endtime' => $item->endtime,
+
                 ];
                 $result += array($item->week_day => $value);
 
@@ -168,6 +246,8 @@ class ScheduleController extends Controller
                 $value = [
                     'name_subject' => $name_subject,
                     'clazz_code' => $item['clazz_code'],
+                    'id_subject'=> $item->subject_id,
+                    'id_class' => $item['id'],
                     'clazz_code_sub' => $item['clazz_code_sub'],
                     'name_clazz' => $item['name_clazz'],
                     'week_day' => $item['week_day'],
@@ -208,24 +288,7 @@ class ScheduleController extends Controller
             array_multisort($col, SORT_ASC, $val);
             $resultFinal += array($i => $val);
         }
-
         return $resultFinal;
     }
 
-    public function compareTwoClazz($idClazzOne, $idClazzTwo){
-        $clazzOne = Clazz::findOrFail($idClazzOne);
-        $clazzTwo = Clazz::findOrFail($idClazzTwo);
-        if($clazzOne['week_day'] != $clazzTwo['week_day']){
-            return true;
-
-        }
-        return false;
-
-    }
-    
-
-    public function compareTimeClazzes($listClazz){
-
-
-    }
 }

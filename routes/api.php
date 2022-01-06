@@ -51,7 +51,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('schedule/clazz-id/{id}', [ScheduleController::class, 'getClassByIdClass']);
     Route::get('schedule/clazz-by-id/{id}', [ScheduleController::class, 'getOneClassById']);
     //Route::post('schedule/compare-clazz-by-id', [ScheduleController::class, 'compareTwoClazz']);
-    // Route::get('/subject/class/list-class/{id}', [ClazzController::class, 'getClassBySubject']);
+    //Route::get('/subject/test', [ScheduleController::class, 'checkTimeClazzes']);
 
 });
 
