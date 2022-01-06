@@ -12,15 +12,48 @@ import MenuItem from '@mui/material/MenuItem';
 import DrawerButton from './DrawerButton';
 import ImageLogo from '../../assets/logo.png';
 import avatar from '../../assets/avatarDefault.png';
+import { instance } from '../../App';
+import { Link, useNavigate } from 'react-router-dom';
+import './HeaderHasAuthor.scss';
 
 
-// const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Logout'];
+
+const settings = [{ content: 'Tài khoản', url: '/student/account' },
+{ content: 'Logout', url: '/student/account' }];
 
 
 const HeaderHasAuthor = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [dataUser, setDataUser] = React.useState('');
+    const [image, setImage] = React.useState('');
+
+    React.useEffect(() => {
+        let load = true;
+        if (load) {
+            instance.get(`/api/current-user`).then(res => {
+                setDataUser(res.data);
+                setImage(res.data.avatar);
+            });
+        }
+        return (() => {
+            load = false;
+        })
+
+    }, []);
+    const history = useNavigate();
+    const logoutSubmit = (e) => {
+        e.preventDefault();
+        instance.post(`/api/logout`).then(res => {
+            if (res.status === 200) {
+                console.log(res);
+                localStorage.removeItem('auth_token')
+                localStorage.removeItem('auth_email')
+                history('/')
+            }
+        })
+
+    }
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -34,8 +67,10 @@ const HeaderHasAuthor = () => {
         setAnchorElUser(null);
     };
 
+
+
     return (
-        <AppBar position="static" style={{ 'backgroundColor': '#554bb9' }}>
+        <AppBar position="static" style={{ 'backgroundColor': '#554bb9' }} className="header-has-author">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography
@@ -54,7 +89,7 @@ const HeaderHasAuthor = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src={avatar} />
+                                <Avatar alt="Remy Sharp" src={image ? image : avatar} />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -74,8 +109,13 @@ const HeaderHasAuthor = () => {
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+                                <MenuItem key={setting.content} onClick={handleCloseNavMenu}>
+
+                                    {
+                                        setting.content === 'Logout' ? <button className='btn border-0' onClick={logoutSubmit}> <Typography textAlign="center">{setting.content}</Typography></button>
+                                            : (<Link to={setting.url} className="nav text-dark"><Typography textAlign="center">{setting.content}</Typography></Link>)
+
+                                    }
                                 </MenuItem>
                             ))}
                         </Menu>

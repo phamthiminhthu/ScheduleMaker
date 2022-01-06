@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Button, Table } from "react-bootstrap";
 import { Avatar } from '@mui/material';
 import avatar from '../../../assets/avatarDefault.png';
 import { cloudinary, instance } from '../../../App';
+import './ProfileDetails.scss';
 
 
 export default function ProfileDetails() {
@@ -66,8 +67,8 @@ export default function ProfileDetails() {
         <div id="profile-details">
             <Container>
                 <Row>
-                    <Col xs="3">
-                        <Card>
+                    <Col xs="3" md="4" sm="12">
+                        <Card className="image-card">
                             <Card.Header className="text-profile">Profile Picture</Card.Header>
                             <Card.Body className="text-center" as="form" onSubmit={submitDataImage}>
                                 <Card.Title>
@@ -95,9 +96,9 @@ export default function ProfileDetails() {
 
                     </Col>
 
-                    <Col xs="9">
+                    <Col xs="9" md="8" sm="12">
 
-                        <Card>
+                        <Card className="details">
                             <Card.Header className="text-profile">Profile Details</Card.Header>
                             <Card.Body>
 

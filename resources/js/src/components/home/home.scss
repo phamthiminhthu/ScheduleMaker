@@ -1,0 +1,136 @@
+button {
+  border-radius: 50px;
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: white;
+  background-color: black;
+}
+.card-top {
+  margin-top: 110px;
+  margin-bottom: 130px;
+  .card-top__header {
+    h1 {
+      font-size: 4.20875rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      white-space: pre-wrap;
+      text-align: left;
+      color: rgb(0, 0, 0);
+      margin-bottom: 48px;
+      max-width: 550px;
+      span{
+        color:#554bb9;
+      }
+    }
+  }
+  .card-top__body {
+    h5 {
+      width: 460px;
+      height: auto;
+      margin-bottom: 48px;
+    }
+  }
+  .card-top__image {
+    img {
+      align-items: center;
+      width: 80%;
+      height: 80%;
+    }
+  }
+}
+.sub-card-header__subtitle {
+  width: 70%;
+  letter-spacing: -0.01em;
+  text-align: left;
+  color: rgb(102, 102, 102);
+  font-size: 1rem;
+  line-height: 1;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.sub-card-header__title {
+  width: 70%;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-align: left;
+  color: rgb(0, 0, 0);
+  font-size: 2.36875rem;
+  line-height: 1.2;
+  hyphens: initial;
+  margin-bottom: 32px;
+}
+.sub-card-body {
+  width: 70%;
+  letter-spacing: -0.01em;
+  text-align: left;
+  color: rgb(0, 0, 0);
+  font-size: 1.125rem;
+  line-height: 1.8;
+  font-weight: 500;
+  hyphens: initial;
+  margin-bottom: 30px;
+}
+.sub-card.first {
+  height: 400px;
+  margin-bottom: 120px;
+  .sub-card-img {
+    position: relative;
+    width: 80%;
+    height: 100%;
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      &:nth-child(1) {
+        z-index: 1;
+        width: 100%;
+      }
+
+      &:nth-child(2) {
+        width: 90%;
+        z-index: 20;
+      }
+    }
+  }
+}
+.sub-card-footer{
+  button{
+    padding:5px 20px;
+    margin-left: 30px;
+}
+  }
+  
+.sub-card.second {
+  height: 400px;
+  margin-bottom: 120px;
+  .sub-card-img {
+    position: relative;
+    width: 80%;
+    height: 100%;
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      &:nth-child(1) {
+        z-index: 1;
+        width: 100%;
+      }
+
+      &:nth-child(3) {
+        width: 100%;
+        transform-origin: 20% 42%;
+        transform: scale(0.28);
+        z-index: 20;
+      }
+      &:nth-child(2) {
+        left: -20%;
+        top: -30%;
+        width: 100%;
+        z-index: 20;
+      }
+    }
+  }
+}

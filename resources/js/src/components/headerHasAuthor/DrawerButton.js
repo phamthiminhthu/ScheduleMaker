@@ -17,7 +17,6 @@ import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SubjectIcon from '@mui/icons-material/Subject';
-import ClassIcon from '@mui/icons-material/Class';
 import { Link, useNavigate } from 'react-router-dom';
 import { instance } from '../../App';
 

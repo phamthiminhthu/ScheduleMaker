@@ -22,7 +22,13 @@ import CreateScheduleMaker from './screens/createMySchedule/CreateScheduleMaker'
 
 export const instance = axios.create({
     baseURL: 'http://localhost:8000/',
-    withCredentials :  true
+    withCredentials :  true,
+    headers : {
+        secure: true,
+        sameSite: "none",
+        
+    }
+    
   });
 
 instance.interceptors.request.use(function (config) {

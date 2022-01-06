@@ -102,7 +102,7 @@ export default function UpdateProfile() {
         <div className="update-profile">
             <Container>
                 <Row>
-                    <Col xs="6">
+                    <Col xs="6" md="12" lg="6" sm="12">
                         <div className="persional-information">
                             <Card border="light" >
                                 <Card.Header className="text-profile">Persional Information</Card.Header>
@@ -147,7 +147,6 @@ export default function UpdateProfile() {
                                         fullWidth
                                         variant="outlined"
                                         disabled
-                                        id="outlined-disabled"
                                         label="Education"
                                         value={dataUser.education}
                                     />
@@ -158,7 +157,7 @@ export default function UpdateProfile() {
                             </Card>
                         </div>
                     </Col>
-                    <Col xs="6">
+                    <Col xs="6" md="12" lg="6" sm="12">
                         <Card border="light">
                             <Card.Header className="text-profile">Contact Information</Card.Header>
                             <Card.Body>
@@ -168,6 +167,7 @@ export default function UpdateProfile() {
                                     label="Contact Phone"
                                     value={dataUser.phone != null ? dataUser.phone : null}
                                     onChange={handleChange('phone')}
+                                    fullWidth
                                 />
                                 <TextField
                                     className="w-50"
@@ -176,6 +176,8 @@ export default function UpdateProfile() {
                                     disabled
                                     label="Email"
                                     value={dataUser.email}
+                                    fullWidth
+
                                 />
 
                                 <TextField
