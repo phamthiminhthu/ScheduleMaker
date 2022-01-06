@@ -130,23 +130,11 @@ class AuthController extends Controller
 
     public function uploadImage(Request $request)
     {
-
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = $file->getClientOriginalName();
-            $finalName = date('His') . $filename;
-            $request->file('image')->storeAs('images/', $finalName, 'public');
-            $user = User::findOrFail(Auth::user()->id)->update(['avatar' => $finalName]);
-            return response()->json([
-                'message' => 'successfully upload avatar',
-                'user' => $user
-            ]);
-
-        } else {
-            return response()->json([
-                'message' => 'fail upload',
-            ]);
-        }
+        $user = User::findOrFail(Auth::user()->id)->update(['avatar' => $request->imageURL]);
+        return response()->json([
+            'message' => 'successfully upload image'
+        ]);
+      
     }
 
 }

@@ -13,7 +13,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
@@ -21,7 +21,7 @@ import Button from '@mui/material/Button';
 import { Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import './AddSubject.scss';
-import axios from 'axios';
+import {instance} from '../../App';
 
 
 //tao class
@@ -178,7 +178,7 @@ export default function AddSubject() {
 
     React.useEffect(function effectFunction() {
         async function fetchData() {
-            await axios.get(`/api/schedule/my-subject-schedule`).then(res => {
+            await instance.get(`/api/schedule/my-subject-schedule`).then(res => {
                 const initSubject = res.data.listSubject;
                 const initSub = [];
                 initSubject.forEach(element => {
@@ -267,7 +267,7 @@ export default function AddSubject() {
             codeSubject: codeSubject
         }
         if (rows.length === 0) {
-            axios.post(`/api/subject/find-subject-by-code`, data).then(res => {
+            instance.post(`/api/subject/find-subject-by-code`, data).then(res => {
                 if (res.data.status === 200) {
                     setErrors("");
                     const newListSubject = [];
@@ -296,7 +296,7 @@ export default function AddSubject() {
                 }
             });
             if (check === 0) {
-                axios.post(`/api/subject/find-subject-by-code`, data).then(res => {
+                instance.post(`/api/subject/find-subject-by-code`, data).then(res => {
                     if (res.data.status === 200) {
                         setErrors("");
                         const newListSubject = [];
@@ -327,7 +327,7 @@ export default function AddSubject() {
         const data = {
             listSubject: rows
         }
-        axios.post(`/api/schedule/list-subject`, data).then((res) => {
+        instance.post(`/api/schedule/list-subject`, data).then((res) => {
             history('/student/create-my-schedule');
         })
 

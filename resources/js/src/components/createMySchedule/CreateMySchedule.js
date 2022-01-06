@@ -7,9 +7,9 @@ import Select from '@mui/material/Select';
 import { Container, Row, Col } from "react-bootstrap";
 import Button from '@mui/material/Button';
 import './CreateMySchedule.scss';
-import axios from 'axios';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import {instance} from '../../App';
 
 
 
@@ -28,7 +28,7 @@ export default function CreateMySchedule() {
 
     React.useEffect(function effectFunction() {
         async function fetchData() {
-            await axios.get(`/api/schedule/my-subject-schedule`).then((res) => {
+            await instance.get(`/api/schedule/my-subject-schedule`).then((res) => {
                 setListSubject(res.data.listClassBySubjectCode);
                 const getData = [...res.data.listClassByOneId];
                 const newListClazz = [];
@@ -87,7 +87,7 @@ export default function CreateMySchedule() {
             'listClass': listClass
         }
 
-        axios.post(`/api/schedule/my-list-class-register`, data).then((res) => {
+        instance.post(`/api/schedule/my-list-class-register`, data).then((res) => {
             history('/student/my-schedule')
         });
 

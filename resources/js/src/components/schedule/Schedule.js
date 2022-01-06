@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Box, Tab } from '@mui/material';
 import { Container, Row, Col } from 'react-bootstrap';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
-import axios from 'axios';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
@@ -12,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import moment from 'moment';
 import './Schedule.scss';
+import {instance } from '../../App';
 
 import subjectImage from '../../assets/subject.jpeg';
 
@@ -34,7 +34,7 @@ function MyAssignmentsDemo() {
     React.useEffect(() => {
         let load = true;
         if (load) {
-            axios.get(`api/schedule/my-schedule-class-register`).then((res) => {
+            instance.get(`api/schedule/my-schedule-class-register`).then((res) => {
                 let data = {
                     '2': [],
                     '3': [],

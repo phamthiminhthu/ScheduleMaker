@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\NoteController;
-use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\ClazzController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\SubjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,12 +36,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/get-event-id-max', [NoteController::class, 'getIDLast']);
 
     //subject
-    // Route::post('/subject/add-subject', [SubjectController::class, 'createSubject']);
     Route::get('subject/get-all-subject', [SubjectController::class, 'getAllSubject']);
     Route::post('subject/find-subject-by-code', [SubjectController::class, 'getSubjectByCodeSubject']);
-    // Route::post('/subject/update-subject/{codeSubject}', [SubjectController::class, 'updateSubject']);
-    // Route::post('/subject/delete-subject/{id}', [SubjectController::class, 'deleteSubject']);
-    // Route::get('/subject/get-subject-by-id/{id}', [SubjectController::class, 'getSubjectById']);
 
     //classes
 
@@ -49,15 +45,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     //schedule
     Route::post('schedule/list-subject', [ScheduleController::class, 'createMySchedule']);
-
     Route::get('schedule/my-subject-schedule', [ScheduleController::class, 'getListSubjectSchedule']);
-
     Route::post('schedule/my-list-class-register', [ScheduleController::class, 'getListClassSchedule']);
     Route::get('schedule/my-schedule-class-register', [ScheduleController::class, 'getListClassOfSubjectMySchedule']);
     Route::get('schedule/clazz-id/{id}', [ScheduleController::class, 'getClassByIdClass']);
     Route::get('schedule/clazz-by-id/{id}', [ScheduleController::class, 'getOneClassById']);
+    //Route::post('schedule/compare-clazz-by-id', [ScheduleController::class, 'compareTwoClazz']);
     // Route::get('/subject/class/list-class/{id}', [ClazzController::class, 'getClassBySubject']);
-    // Route::get('/getall', [SubjectController::class, 'getAlll']);
 
 });
 

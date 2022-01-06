@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import './ListSubject.scss';
 import { Container, Row } from 'react-bootstrap';
-import axios from 'axios';
+import { instance } from '../../App';
 
 
 const columns = [
@@ -22,7 +22,7 @@ export default function ListSubject() {
     useEffect(() => {
         let loading = true;
         if (loading) {
-            axios.get(`api/subject/get-all-subject`).then((res) => {
+            instance.get(`api/subject/get-all-subject`).then((res) => {
                 setRow(res.data.listSubject);
 
             }).catch(e => {

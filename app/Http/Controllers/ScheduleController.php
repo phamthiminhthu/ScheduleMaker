@@ -54,10 +54,11 @@ class ScheduleController extends Controller
                 }
             }
         }
+        $listClassByOneId = array();
 
         if ($listClassScheduleCode != null) {
             $listClassOneById = explode(",", $listClassScheduleCode);
-            $listClassByOneId = array();
+            
             foreach ($listClassOneById as $clazzId) {
                 array_push($listClassByOneId, $this->getOneClassById($clazzId));
             }
@@ -211,10 +212,20 @@ class ScheduleController extends Controller
         return $resultFinal;
     }
 
+    public function compareTwoClazz($idClazzOne, $idClazzTwo){
+        $clazzOne = Clazz::findOrFail($idClazzOne);
+        $clazzTwo = Clazz::findOrFail($idClazzTwo);
+        if($clazzOne['week_day'] != $clazzTwo['week_day']){
+            return true;
 
+        }
+        return false;
+
+    }
     
 
     public function compareTimeClazzes($listClazz){
+
 
     }
 }

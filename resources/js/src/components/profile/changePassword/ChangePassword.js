@@ -2,10 +2,8 @@ import * as React from 'react';
 import { Container, Col, Row, Card, Button } from 'react-bootstrap';
 import Alert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
-import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
-import { set } from 'date-fns';
-import { appendErrors } from 'react-hook-form';
+import {instance} from '../../../App';
 
 
 export default function ChangePassword() {
@@ -46,7 +44,7 @@ export default function ChangePassword() {
             confirm_password: passwd.confirm_password
         }
         try {
-            await axios.post(`/api/change-password`, data).then(res => {
+            await instance.post(`/api/change-password`, data).then(res => {
                 if (res.status === 200) {
                     setErrors([]);
                     setMatchErrors('');

@@ -19,7 +19,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import SubjectIcon from '@mui/icons-material/Subject';
 import ClassIcon from '@mui/icons-material/Class';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { instance } from '../../App';
 
 
 export default function SwipeableTemporaryDrawer() {
@@ -55,7 +55,7 @@ export default function SwipeableTemporaryDrawer() {
 
     const logoutSubmit = (e) => {
         e.preventDefault();
-        axios.post(`/api/logout`).then(res => {
+        instance.post(`/api/logout`).then(res => {
             if(res.status === 200){
                 console.log(res);
                 localStorage.removeItem('auth_token')

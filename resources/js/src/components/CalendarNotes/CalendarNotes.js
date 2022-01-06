@@ -17,7 +17,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment';
-import axios from 'axios'
+import {instance} from '../../App';
 
 
 
@@ -41,7 +41,7 @@ export default function CalendarNotes() {
   const [initListNote, setInitListNote] = useState([]);
   const [isBusy, setIsBusy] = useState(false);
   useEffect(() => {
-    axios.get(`/api/get-all-notes`).then(res => {
+    instance.get(`/api/get-all-notes`).then(res => {
       const result = [];
       if (res.data.note.length > 0) {
         res.data.note.forEach(element => {
@@ -141,7 +141,7 @@ export default function CalendarNotes() {
       endtime: reconvert(events.endtime),
       description: events.description
     }
-    axios.post(`/api/update-note/${idCurrent}`, data).then(res => {
+    instance.post(`/api/update-note/${idCurrent}`, data).then(res => {
       console.log("Update successfully");
 
     }).catch((e) => {
@@ -168,7 +168,7 @@ export default function CalendarNotes() {
   const [idMax, setIdMax] = useState(0);
   const [stateGetId, setStateGetId] = useState(false);
   const handleSave = async () => {
-    await axios.get(`/api/get-event-id-max`).then((res) => {
+    await instance.get(`/api/get-event-id-max`).then((res) => {
       setIdMax(res.data.noteID)
       setStateGetId(true);
       
@@ -203,7 +203,7 @@ export default function CalendarNotes() {
             endtime: reconvert(events.endtime),
             description: events.description
           }
-          await axios.post(`/api/create-notes`, data).then(res => {
+          await instance.post(`/api/create-notes`, data).then(res => {
             if (res.data.status === 200) {
               setShow(false);
             }
@@ -231,7 +231,7 @@ export default function CalendarNotes() {
     if (selectInfo) {
       selectInfo.event.remove()
     }
-    axios.delete(`/api/delete-note/${idCurrent}`).then(res => {
+    instance.delete(`/api/delete-note/${idCurrent}`).then(res => {
       console.log("Delete successfully")
 
     }).catch(e => {

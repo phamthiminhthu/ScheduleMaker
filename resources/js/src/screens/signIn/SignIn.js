@@ -8,7 +8,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import {instance} from '../../App';
 
 
 export default function SignIn() {
@@ -56,8 +56,8 @@ export default function SignIn() {
             email: values.email,
             password: values.password,
         }
-        axios.get('/sanctum/csrf-cookie').then(response => {
-            axios.post(`/api/login`, data).then(res => {
+        instance.get('/sanctum/csrf-cookie').then(response => {
+            instance.post(`/api/login`, data).then(res => {
                 if (res.status === 201) {
                     localStorage.setItem('auth_token', res.data.token);
                     localStorage.setItem('auth_email', res.data.user.email);

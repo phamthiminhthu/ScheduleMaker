@@ -9,7 +9,7 @@ import Alert from '@mui/material/Alert';
 import moment from 'moment';
 
 import './UpdateProfile.scss';
-import axios from 'axios';
+import {instance} from '../../../App';
 
 export default function UpdateProfile() {
     const [dataUser, setDataUser] = React.useState(
@@ -28,7 +28,7 @@ export default function UpdateProfile() {
     React.useEffect(() => {
         let load = true;
         if (load) {
-            axios.get(`/api/current-user`).then(res => {
+            instance.get(`/api/current-user`).then(res => {
                 setDataUser(
                     {
                         name: res.data.name,
@@ -81,7 +81,7 @@ export default function UpdateProfile() {
         }
         setLoading(true);
         try {
-            await axios.post(`/api/update-profile`, data).then(res => {
+            await instance.post(`/api/update-profile`, data).then(res => {
                 if (res.status === 200) {
                     console.log("update successfully")
                     setOpen(true);

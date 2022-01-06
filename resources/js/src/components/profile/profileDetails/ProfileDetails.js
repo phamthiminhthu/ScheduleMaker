@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button, Table } from "react-bootstrap";
 import { Avatar } from '@mui/material';
-import axios from 'axios';
 import avatar from '../../../assets/avatarDefault.png';
+import { cloudinary, instance } from '../../../App';
+
 
 export default function ProfileDetails() {
 
     const [dataUser, setDataUser] = useState([])
     const [isUpload, setUpload] = useState(false);
-
+    const [image, setImage] = useState('');
     useEffect(() => {
         let load = true;
         if (load) {
-            axios.get(`/api/current-user`).then(res => {
+            instance.get(`/api/current-user`).then(res => {
                 setDataUser(res.data);
+                setImage(res.data.avatar);
             });
         }
         return (() => {
@@ -23,29 +25,40 @@ export default function ProfileDetails() {
     }, []);
 
     const [imagedata, setImagedata] = useState('');
-    const [image, setImage] = useState('');
+    
     const handleChangeImage = file => {
         if (file.target.files.length !== 0) {
-            setImagedata(URL.createObjectURL(file.target.files[0]));
-            setImage(file.target.files[0]);
             setUpload(true);
-        }else{
+            const fData = new FormData();
+            fData.append("file", file.target.files[0]);
+            fData.append("upload_preset", "srx39oig");
+            fData.append("api_key", "758688334669317");
+
+            cloudinary.post(`https://api.cloudinary.com/v1_1/djmudkxfn/image/upload`, fData)
+                .then(res => {
+                    setImage(res.data.secure_url);
+                    console.log(res.data.secure_url);
+                });
+        } else {
             setUpload(false);
         }
+        setImagedata(file.target.files);
+
 
     }
 
     const submitDataImage = (e) => {
         e.preventDefault();
         setUpload(false);
-        const fData = new FormData();
-        fData.append('image', image);
-        axios.post(`/api/upload-image`, fData).then(res => {
-            console.log("response", res);
+        const data ={
+            'imageURL' : image
+        }
+        instance.post(`api/upload-image`, data).then(res => {
+            console.log(res.data)
+        }).catch(e => {
 
-        }).catch((e) => {
-            console.error('Failure', e);
-        })
+        });
+
     }
 
 
@@ -60,7 +73,7 @@ export default function ProfileDetails() {
                                 <Card.Title>
                                     <Avatar
                                         alt="Remy Sharp"
-                                        src={ imagedata ? imagedata : avatar}
+                                        src={image ? image : avatar}
                                         sx={{ width: 100, height: 100 }}
                                         className="m-auto"
                                     />
@@ -71,10 +84,11 @@ export default function ProfileDetails() {
                                     name="image"
                                     onChange={handleChangeImage}
                                     hidden
-                                 
+
+
                                 />
-                                <Button as="label" htmlFor="file-id" className="button-profile" style={{display : isUpload ? 'none' : 'block'}}>Upload</Button>
-                                <Button className="button-profile" type="submit" onClick={submitDataImage} style={{display : isUpload ? 'block' : 'none' }}>Save</Button>
+                                <Button as="label" htmlFor="file-id" className="button-profile" style={{ display: isUpload ? 'none' : 'block' }}>Upload</Button>
+                                <Button className="button-profile" type="submit" onClick={submitDataImage} style={{ display: isUpload ? 'block' : 'none' }}>Save</Button>
 
                             </Card.Body>
                         </Card>
