@@ -24,7 +24,7 @@ function Header() {
                             <Navbar.Collapse  id="basic-navbar-nav">
                                 <Nav className="list-menu">
                                     <Link to="/home" className="text-white nav-link">Home</Link>
-                                    <Nav.Link href="#schedule" className="text-white">Schedule</Nav.Link>
+                                    <Link to="/schedule" className="text-white">Schedule</Link>
                                     <Nav.Link href="#news" className="text-white">News</Nav.Link>
                                     <Link to="/speaker-page"  className="text-white nav-link">Speakers</Link>
                                     <Nav.Link href="#contact" className="text-white">Contact</Nav.Link>

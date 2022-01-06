@@ -1,0 +1,10 @@
+.image-demo{
+    width: 80%;
+    height: auto;
+}
+
+@media (max-width:756px){
+    .image-demo{
+        width: 250px !important;
+    }
+}

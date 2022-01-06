@@ -15,7 +15,6 @@ import { instance } from '../../App';
 
 export default function CreateMySchedule() {
 
-
     const [listSubject, setListSubject] = React.useState({});
     const [listClass, setListClass] = React.useState([]);
     const [errors, setErrors] = React.useState([]);
@@ -102,8 +101,8 @@ export default function CreateMySchedule() {
             } else {
                 console.log(res.data);
                 let errors = [];
-                errors[res.data.clazzOneFails.id_class] = "Trùng lịch với mã HP" + res.data.clazzTwoFails.id_subject;
-                errors[res.data.clazzTwoFails.id_class] = "Trùng lịch với mã HP" +  res.data.clazzOneFails.id_subject;;
+                errors[res.data.clazzOneFails.id_class] = "Trùng lịch với mã HP " + res.data.clazzTwoFails.id_subject;
+                errors[res.data.clazzTwoFails.id_class] = "Trùng lịch với mã HP " +  res.data.clazzOneFails.id_subject;;
                 setErrors(errors);
             }
         });
@@ -118,7 +117,6 @@ export default function CreateMySchedule() {
                     Create My Schedule
                 </h3>
                 {mapData(listSubject)}
-
 
             </Row>
 

@@ -35,7 +35,7 @@ export default function Introduce() {
                             </Card>
                         </Col>
                         <Col xs="5">
-                            <img src={aboutIntro} style={{'width':'400px', 'height': '500px', 'paddingTop': '30px'}}></img>
+                            <img src={aboutIntro} style={{'width':'400px', 'height': '500px', 'paddingTop': '30px'}} className="image-introduce"></img>
 
                         </Col>
                     </Row>

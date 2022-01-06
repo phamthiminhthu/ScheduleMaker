@@ -19,7 +19,7 @@ function HeaderSecond() {
                         <Col xs="12">
                             <Breadcrumbs aria-label="breadcrumb" className="bread-crumbs-details">
                                 <Link underline="hover" color="inherit" href="/"  className="text-white">
-                                    <HomeIcon sx={{ mr: 0.5 }} fontSize="inherit" /> MUI
+                                    <HomeIcon sx={{ mr: 0.5 }} fontSize="inherit" /> HOME
                                 </Link>
                                 {/* <Link
                                     underline="hover"
@@ -29,7 +29,7 @@ function HeaderSecond() {
                                 >
                                     Core
                                 </Link> */}
-                                <Typography color="text.primary" className="text-white">ABOUT</Typography>
+                                <Typography color="text.primary" className="text-white">SCHEDULE</Typography>
                             </Breadcrumbs>
 
                         </Col>

@@ -5,11 +5,17 @@ import News from '../../components/news/News';
 import Speaker from '../../components/speaker/Speaker';
 import ScheduleDemo from '../../components/scheduleDemo/ScheduleDemo'
 import Introduce from '../../components/introduce/Introduce'
+import HeaderMobile from '../../components/header/headerMobile/HeaderMobile';
+import './Home.scss';
 
 export default function Home() {
     return (
         <div>
-            <HeaderMain />
+            <div className="main-header-one">
+                <HeaderMain />
+            </div>
+
+            <HeaderMobile className="main-header-two" style={{ 'display': 'none' }} />
             <Introduce />
             <Speaker />
             <ScheduleDemo />

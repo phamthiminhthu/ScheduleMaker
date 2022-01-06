@@ -9,7 +9,9 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import Typography from '@mui/material/Typography';
 import {Container, Row} from 'react-bootstrap';
-import demo from '../../../assets/footer-bg.jpeg'
+import notes from '../../../assets/notes.png';
+import schedule from '../../../assets/scheduleImage.png';
+import './MyScheduleDemo.scss';
 
 
 export default function MyScheduleDemo() {
@@ -25,7 +27,7 @@ export default function MyScheduleDemo() {
                             variant="body2"
                             color="text.secondary"
                         >
-                            My Schedule
+                            My notes
                         </TimelineOppositeContent>
                         <TimelineSeparator>
                             <TimelineConnector sx={{ bgcolor: 'primary.main' }}/>
@@ -36,7 +38,7 @@ export default function MyScheduleDemo() {
                         </TimelineSeparator>
                         <TimelineContent sx={{ py: '12px', px: 2 }}>
                             <Typography variant="h6" component="span">
-                               <img src={demo} style={{'width':'700px', 'height': '400px'}}></img>
+                               <img src={notes} style={{'width':'700px', 'height': 'auto'}} className="image-demo"></img>
                             </Typography>
     
                         </TimelineContent>
@@ -58,7 +60,7 @@ export default function MyScheduleDemo() {
                         </TimelineSeparator>
                         <TimelineContent sx={{ py: '12px', px: 2 }}>
                             <Typography variant="h6" component="span">
-                            <img src={demo} style={{'width':'700px', 'height': '400px'}}></img>
+                            <img src={schedule} style={{'width':'700px', 'height': 'auto'}} className="image-demo"></img>
                             </Typography>
                           
                         </TimelineContent>

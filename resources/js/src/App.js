@@ -18,6 +18,7 @@ import ScheduleMaker from './screens/scheduleMaker/ScheduleMaker';
 import CreateSubject from './screens/createSubject/CreateSubject';
 import SubjectList from './screens/listSubject/SubjectList';
 import CreateScheduleMaker from './screens/createMySchedule/CreateScheduleMaker';
+import ScheduleOutSide from './screens/scheduleOutSide/ScheduleOutSide';
 
 
 export const instance = axios.create({
@@ -52,6 +53,7 @@ function App() {
                 <Route path='/register' element={<Register />}></Route>
                 <Route path='/login' element={<SignIn />}></Route>
                 <Route path='/speaker-page' element={<SpeakerPage />}></Route>
+                <Route path='/schedule' element={<ScheduleOutSide/>}></Route>
                 <Route path='/student' element={<HomeAuthor />}></Route>
                 <Route path='/student/home' element={<HomeAuthor />}></Route>
                 <Route path='/student/account' element={<Account />}></Route>
