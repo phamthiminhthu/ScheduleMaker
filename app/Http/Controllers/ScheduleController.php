@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Auth;
 class ScheduleController extends Controller
 {
 
-
     public function getListClassBySubject($id)
     {
         $subject = Subject::where('code_subject', '=', $id)->first();
@@ -77,10 +76,20 @@ class ScheduleController extends Controller
         $time1End = $clazzOne->endtime;
         $time2Start = $clazzTwo->startime;
         $time2End = $clazzTwo->endtime;
+        $weekday1 = $clazzOne->week_day;
+        $weekday2 = $clazzTwo->week_day;
         $res = 1;
+        if ($weekday1 == $weekday2) {
+            if ($time1Start <= $time2Start) {
+                if ($time1Start == $time2Start || $time2Start <= $time1End) {
+                    $res = 0;
+                }
+            } else {
+                if ($time1Start <= $time2End) {
+                    $res = 0;
 
-        if ($time1Start == $time2Start || $time2Start <= $time1End) {
-            $res = 0;
+                }
+            }
         }
 
         return $res;
@@ -89,18 +98,18 @@ class ScheduleController extends Controller
     public function checkTimeClazzes($resultFinal)
     {
         $test = true;
-        foreach ($resultFinal as $key => $value) { 
+        foreach ($resultFinal as $key => $value) {
             if (count($value) >= 2) {
                 for ($i = 0; $i < count($value) - 1; $i++) {
                     for ($j = $i + 1; $j < count($value); $j++) {
                         if (($this->compareTwoClazz($value[$i]['id_class'], $value[$j]['id_class'])) == 0) {
-                            
+
                             $test = false;
                             return [
-                                'test'=>$test,
-                                'clazzOne'=>$value[$i],
-                                'clazzTwo'=>$value[$j],
-                                'key' => $key
+                                'test' => $test,
+                                'clazzOne' => $value[$i],
+                                'clazzTwo' => $value[$j],
+                                'key' => $key,
                             ];
                         }
                     }
@@ -110,7 +119,7 @@ class ScheduleController extends Controller
 
         return [
             'test' => $test,
-            'message' => "Succesfully"
+            'message' => "Succesfully",
         ];
     }
 
@@ -119,9 +128,9 @@ class ScheduleController extends Controller
     {
         $listClass = $request->listClass;
         $listClazz = $listClass;
-        $listClazz = implode(",",$listClazz);
+        $listClazz = implode(",", $listClass);
         $str = "";
-        $listClassID = explode(",",  $listClazz);
+        $listClassID = explode(",", $listClazz);
         $result = array();
         foreach ($listClassID as $item) {
             $res = $this->getClassByIdClass($item);
@@ -164,7 +173,7 @@ class ScheduleController extends Controller
                 'status' => 400,
                 'message' => 'Fails',
                 'clazzOneFails' => $test['clazzOne'],
-                'clazzTwoFails'=> $test ['clazzTwo']
+                'clazzTwoFails' => $test['clazzTwo'],
             ]);
         }
 
@@ -199,6 +208,16 @@ class ScheduleController extends Controller
         } else {
 
             $schedule = Schedule::where('user_id', Auth::user()->id)->first()->update(['list_subject_code' => $str]);
+            // if ($schedule->list_id_clazz != null) {
+            //     $strListClazz = $schedule->list_id_clazz;
+            //     $listClazz = implode(",", $strListClazz);
+            //     if(count( $listClazz) > count($listCourseID)){
+            //         $schedule = Schedule::where('user_id', Auth::user()->id)->first()->update(['list_id_clazz' => null]);
+            //     }
+
+            // } else {
+
+            // }
             return response()->json([
                 'updateListSubCode' => $schedule,
                 'message' => "Update schedule sucessfully",
@@ -222,7 +241,7 @@ class ScheduleController extends Controller
 
                     'name_subject' => $name_subject,
                     'id_class' => $item->id,
-                    'id_subject'=> $item->subject_id,
+                    'id_subject' => $item->subject_id,
                     'clazz_code' => $item->clazz_code,
                     'clazz_code_sub' => $item->clazz_code_sub,
                     'name_clazz' => $item->name_clazz,
@@ -246,7 +265,7 @@ class ScheduleController extends Controller
                 $value = [
                     'name_subject' => $name_subject,
                     'clazz_code' => $item['clazz_code'],
-                    'id_subject'=> $item->subject_id,
+                    'id_subject' => $item['subject_id'],
                     'id_class' => $item['id'],
                     'clazz_code_sub' => $item['clazz_code_sub'],
                     'name_clazz' => $item['name_clazz'],
@@ -289,6 +308,303 @@ class ScheduleController extends Controller
             $resultFinal += array($i => $val);
         }
         return $resultFinal;
+    }
+
+    public function getListTimeOfClassId($classID)
+    {
+        $listClazz = Clazz::where('clazz_code', '=', $classID)->get();
+        $result = array();
+        $flag = 0;
+        foreach ($listClazz as $item) {
+            if ($item->clazz_code == $item->clazz_code_sub) {
+                $value = [
+                    'id_clazz' => $item->id,
+                    'week_day' => $item->week_day,
+                    'start_time' => $item->startime,
+                    'end_time' => $item->endtime,
+                ];
+                array_push($result, $value);
+
+            } else {
+                $clazzCodeSub = Clazz::where('clazz_code', '=', $item->clazz_code_sub)->first();
+                $value1 = [
+
+                    'id_clazz' => $item->id,
+                    'week_day' => $item->week_day,
+                    'start_time' => $item->startime,
+                    'end_time' => $item->endtime,
+                ];
+
+                $value2 = [
+
+                    'id_clazz' => $clazzCodeSub->id,
+                    'week_day' => $clazzCodeSub->week_day,
+                    'start_time' => $clazzCodeSub->startime,
+                    'end_time' => $clazzCodeSub->endtime,
+                ];
+
+                array_push($result, $value1);
+                array_push($result, $value2);
+
+            }
+        }
+        return array($classID => $result);
+    }
+
+    public function checkTwoSubjectSameTime($classCode1, $classCode2)
+    {
+        $listClazzOne = $this->getListTimeOfClassId($classCode1);
+        $listClazzTwo = $this->getListTimeOfClassId($classCode2);
+
+        $res = 0;
+        $newListClazzOne = $newListClazzTwo = array();
+        foreach ($listClazzOne as $k => $value) {
+            foreach ($value as $v) {
+                $val = [
+                    'week_day' => $v['week_day'],
+                    'start_time' => $v['start_time'],
+                    'end_time' => $v['end_time'],
+                ];
+                array_push($newListClazzOne, $val);
+            }
+        }
+        foreach ($listClazzTwo as $k => $value) {
+            foreach ($value as $v) {
+                $val = [
+                    'week_day' => $v['week_day'],
+                    'start_time' => $v['start_time'],
+                    'end_time' => $v['end_time'],
+                ];
+                array_push($newListClazzTwo, $val);
+            }
+        }
+        if ($newListClazzOne == $newListClazzTwo) {
+            $res = 1;
+        }
+        return $res;
+
+    }
+
+    public function getListClazzAndTimeByCodeSubject($codeSubject)
+    {
+
+        $listClazzID = Clazz::where('subject_id', '=', $codeSubject)->where('clazz_code_sub', '!=', '')->distinct()->get(['clazz_code']);
+        $result = array();
+        $check = 0;
+        foreach ($listClazzID as $clazzID) {
+            $res = $this->getListTimeOfClassId($clazzID->clazz_code);
+            if ($check == 0) {
+                $result += $res;
+                $check = 1;
+            } else {
+                $check2 = 0;
+                foreach ($result as $k => $v) {
+
+                    if (($this->checkTwoSubjectSameTime($k, $clazzID->clazz_code)) == 1) {
+                        $check2 = 1;
+                        break;
+                    }
+                }
+                if ($check2 == 0) {
+                    $result += $res;
+                }
+            }
+
+        }
+        return $result;
+    }
+
+    public function checkTimeOfTwoClazzCode($clazzCodeOne, $clazzCodeTwo)
+    {
+        $clazzOne = $this->getListTimeOfClassId($clazzCodeOne);
+        $clazzTwo = $this->getListTimeOfClassId($clazzCodeTwo);
+        $listTimeOne = array($clazzOne[$clazzCodeOne]);
+        $listTimeTwo = array($clazzTwo[$clazzCodeTwo]);
+        $res = 1;
+        foreach ($listTimeOne[0] as $val1) {
+
+            foreach ($listTimeTwo[0] as $val2) {
+
+                if (($this->compareTwoClazz($val1['id_clazz'], $val2['id_clazz'])) == 0) {
+                    $res = 0;
+                    return $res;
+                }
+            }
+        }
+        return $res;
+
+    }
+
+    public function getSortClazzOfMySubjectChoose()
+    {
+        $strSubject = Schedule::where('user_id', Auth::user()->id)->first()->value('list_subject_code');
+        $strSubjectSubCode = explode(",", $strSubject);
+        $listSubjectID = Clazz::whereIn('subject_id', $strSubjectSubCode)->distinct()->get(['subject_id']);
+        $result = array();
+        foreach ($listSubjectID as $subjectID) {
+            $res = $this->getListClazzAndTimeByCodeSubject($subjectID->subject_id);
+            $result += array($subjectID->subject_id => $res);
+        }
+        array_multisort(array_map('count', $result), SORT_ASC, $result);
+
+        return $result;
+    }
+
+    public function getAllNextClazzCorrect($listClazzHad, $subjectID, $listResult)
+    {
+        $list = $listResult[$subjectID];
+        $listSameTime = array();
+        foreach ($list as $k => $v) {
+            foreach ($listClazzHad as $kHad) {
+                if (($this->checkTimeOfTwoClazzCode($kHad, $k)) == 0) {
+                    $listSameTime += array($k => $v);
+
+                }
+            }
+        }
+        $results = array_diff(array_map('serialize', $list), array_map('serialize', $listSameTime));
+        $result = array_map('unserialize', $results);
+        return $result;
+
+    }
+
+    public function checkTimeTableTrueOrFalse($listTimeTable, $listResult)
+    {
+        $res = 0;
+        if (count($listTimeTable) == count($listResult)) {
+            $res = 1;
+        }
+        return $res;
+    }
+
+    public function getAllAutoSchedule()
+    {
+        $listScheduleResult = array();
+        $listSubjectAndClazz = $this->getSortClazzOfMySubjectChoose();
+        if (count($listSubjectAndClazz) == 0) {
+            return null;
+        } else if (count($listSubjectAndClazz) == 1) {
+            foreach ($listSubjectAndClazz as $k => $value) {
+                foreach ($value as $i => $val) {
+                    array_push($listScheduleResult, $i);
+                }
+
+            }
+            return array(0 => $listScheduleResult);
+        } else {
+            $keyList = array_keys($listSubjectAndClazz);
+            foreach (array_keys($keyList) as $index) {
+                foreach ($listSubjectAndClazz as $k => $value) {
+                    $listStack = array();
+                    foreach ($value as $v => $v1) {
+                        $listStack += array($v => array($v));
+                        while (!empty($listStack)) {
+                            $valueElementListStack = reset($listStack);
+                            array_shift($listStack);
+                            if (count($valueElementListStack) == count($listSubjectAndClazz)) {
+                                $listStack = array();
+                                break;
+                            }
+                            $listCorrect = $this->getAllNextClazzCorrect($valueElementListStack, $keyList[count($valueElementListStack)], $listSubjectAndClazz);
+                            foreach ($listCorrect as $item => $v2) {
+                                $listTimeTable = $valueElementListStack;
+                                array_push($listTimeTable, $item);
+                                if (count($listTimeTable) == count($listSubjectAndClazz)) {
+                                    array_push($listScheduleResult, $listTimeTable);
+                                } else {
+                                    $listStack += array($item => $listTimeTable);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                }
+                break;
+
+            }
+
+        }
+        return array(1 => $listScheduleResult);
+    }
+
+    public function getTimeSubjectClazzCode($clazzCode)
+    {
+        $listClazzes = Clazz::where('clazz_code', '=', $clazzCode)->first();
+        $clazzes = Clazz::where('subject_id', '=', $listClazzes->subject_id)->where('clazz_code_sub', '!=', '')->distinct()->get(['clazz_code']);
+        $subject = Subject::where('code_subject', '=', $listClazzes->subject_id)->first();
+        $listSameTime = array();
+        foreach ($clazzes as $clazz) {
+            if ($this->checkTwoSubjectSameTime($clazzCode, $clazz->clazz_code)) {
+                array_push($listSameTime, $clazz->clazz_code);
+            }
+        }
+        $listStrSameClazz = "";
+        for ($i = 0; $i < count($listSameTime); $i++) {
+            if ($i == (count($listSameTime) - 1)) {
+                $listStrSameClazz = $listStrSameClazz . $listSameTime[$i];
+            } else {
+                $listStrSameClazz = $listStrSameClazz . $listSameTime[$i] . ", ";
+            }
+        }
+        $listClazz = $this->getListTimeOfClassId($clazzCode);
+        $result = array();
+        foreach ($listClazz as $k => $v) {
+
+            foreach ($v as $v1) {
+                $value = [
+                    'list_clazz_code' => $listStrSameClazz,
+                    'name_subject' => $subject->name_subject,
+                    'subject_code' => $subject->code_subject,
+                    'week_day' => $v1['week_day'],
+                    'startime' => $v1['start_time'],
+                    'endtime' => $v1['end_time'],
+
+                ];
+                array_push($result, $value);
+            }
+
+        }
+
+        return $result;
+
+    }
+
+    public function getAllScheduleAutoConvert()
+    {
+        $result1 = $this->getAllAutoSchedule();
+        if (array_key_exists('1', $result1)) {
+            $result = $result1['1'];
+            $schedule = array();
+            $i = 1;
+            foreach ($result as $res) {
+                $newSchedule = array();
+                foreach ($res as $v) {
+                    $newSchedule = array_merge($newSchedule, $this->getTimeSubjectClazzCode($v));
+                }
+
+                $colWeek = array_column($newSchedule, "week_day");
+                $colStartime = array_column($newSchedule, "startime");
+                array_multisort($colWeek, SORT_ASC, $colStartime, SORT_ASC, $newSchedule);
+                $schedule += array($i => $newSchedule);
+                $i = $i + 1;
+
+            }
+            return $schedule;
+
+        } else {
+            $result = $result1['0'];
+            $schedule = array();
+            $i = 1;
+            foreach ($result as $key) {
+                $newSchedule = array();
+                $newSchedule = array_merge($newSchedule, $this->getTimeSubjectClazzCode($key));
+                $schedule += array($i => $newSchedule);
+                $i = $i + 1;
+            }
+            return $schedule;
+
+        }
+
     }
 
 }

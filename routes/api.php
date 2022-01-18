@@ -50,6 +50,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('schedule/my-schedule-class-register', [ScheduleController::class, 'getListClassOfSubjectMySchedule']);
     Route::get('schedule/clazz-id/{id}', [ScheduleController::class, 'getClassByIdClass']);
     Route::get('schedule/clazz-by-id/{id}', [ScheduleController::class, 'getOneClassById']);
+
+
+    Route::get('schedule/all-auto-schedule', [ScheduleController::class, 'getAllScheduleAutoConvert']);
     //Route::post('schedule/compare-clazz-by-id', [ScheduleController::class, 'compareTwoClazz']);
     //Route::get('/subject/test', [ScheduleController::class, 'checkTimeClazzes']);
 

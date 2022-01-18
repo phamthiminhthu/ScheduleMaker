@@ -91,15 +91,17 @@ export default function CreateMySchedule() {
 
 
     const handleSave = async () => {
+        let newList = [...listClass];
+        newList = newList.slice(0,  Object.keys(listSubject).length);
         const data = {
-            'listClass': listClass
+            'listClass': newList
         }
 
         instance.post(`/api/schedule/my-list-class-register`, data).then((res) => {
             if (res.data.status === 200) {
                 history('/student/my-schedule')
             } else {
-                console.log(res.data);
+                console.log(listClass);
                 let errors = [];
                 errors[res.data.clazzOneFails.id_class] = "Trùng lịch với mã HP " + res.data.clazzTwoFails.id_subject;
                 errors[res.data.clazzTwoFails.id_class] = "Trùng lịch với mã HP " +  res.data.clazzOneFails.id_subject;;

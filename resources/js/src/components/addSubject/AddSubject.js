@@ -331,7 +331,6 @@ export default function AddSubject() {
             history('/student/create-my-schedule');
         })
 
-
     }
 
   
