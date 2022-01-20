@@ -119,7 +119,7 @@ export default function ShowListScheduleMaker() {
             <Row>
                 <Col xs="12">
                     <div className="show-list-schedule-maker">
-                        <h3 className="text-center mt-4 mb-4 title">All Schedule Maker Auto </h3>
+                        <h3 className="text-center mt-4 mb-4 title">All Schedule</h3>
                         <div className="show-list-schedule">
                             <div className="text-center w-100 m-auto">
                                 {

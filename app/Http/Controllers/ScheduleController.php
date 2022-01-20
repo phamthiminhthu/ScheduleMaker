@@ -44,7 +44,7 @@ class ScheduleController extends Controller
                 $subject = Subject::where('code_subject', '=', $courseID)->first();
                 array_push($listSubject, $subject);
                 if (is_array($this->getListClassBySubject($courseID))) {
-                    $listClassOfSubject += array($courseID => collect(array_intersect_key($this->getListClassBySubject($courseID), array_unique(array_column($this->getListClassBySubject($courseID), 'clazz_code'))))->values()->all());
+                    $listClassOfSubject += array($courseID." - ".$subject->name_subject => collect(array_intersect_key($this->getListClassBySubject($courseID), array_unique(array_column($this->getListClassBySubject($courseID), 'clazz_code'))))->values()->all());
 
                 }
             }
@@ -285,7 +285,8 @@ class ScheduleController extends Controller
 
     public function getListClassOfSubjectMySchedule()
     {
-        $strClass = Schedule::where('user_id', Auth::user()->id)->first()->value('list_id_class');
+        $strClass1 = Schedule::where('user_id', Auth::user()->id)->first();
+        $strClass =$strClass1->list_id_class;
         $listClassID = explode(",", $strClass);
         $result = array();
         foreach ($listClassID as $item) {
@@ -437,7 +438,8 @@ class ScheduleController extends Controller
 
     public function getSortClazzOfMySubjectChoose()
     {
-        $strSubject = Schedule::where('user_id', Auth::user()->id)->first()->value('list_subject_code');
+        $strSubject1 = Schedule::findOrFail(Auth::user()->id);
+        $strSubject = $strSubject1->list_subject_code;
         $strSubjectSubCode = explode(",", $strSubject);
         $listSubjectID = Clazz::whereIn('subject_id', $strSubjectSubCode)->distinct()->get(['subject_id']);
         $result = array();
@@ -447,7 +449,7 @@ class ScheduleController extends Controller
         }
         array_multisort(array_map('count', $result), SORT_ASC, $result);
 
-        return $result;
+        return  $result;
     }
 
     public function getAllNextClazzCorrect($listClazzHad, $subjectID, $listResult)

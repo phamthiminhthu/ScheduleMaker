@@ -15,7 +15,7 @@ export default function Home() {
                 <HeaderMain />
             </div>
 
-            <HeaderMobile className="main-header-two" style={{ 'display': 'none' }} />
+            {/* <HeaderMobile className="main-header-two" style={{ 'display': 'none' }} /> */}
             <Introduce />
             <Speaker />
             <ScheduleDemo />
